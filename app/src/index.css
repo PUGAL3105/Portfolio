@@ -1,0 +1,382 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'GeistMono';
+  src: url('/node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ═══════════════════════════════════════════
+   BASE RESET & ROOT TOKENS
+═══════════════════════════════════════════ */
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 34 68% 75%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 7%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 85%;
+    --accent: 34 68% 75%;
+    --accent-foreground: 0 0% 4%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 100% / 0.1;
+    --input: 0 0% 16%;
+    --ring: 34 68% 75%;
+    --radius: 0px;
+
+    /* Spacing tokens */
+    --section-px: clamp(20px, 5vw, 80px);
+    --section-py: clamp(80px, 12vh, 160px);
+    --container-max: 1400px;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-[#0a0a0a] text-white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 200;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'EB Garamond', serif;
+    font-weight: 400;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE LAYOUT UTILITIES
+═══════════════════════════════════════════ */
+@layer utilities {
+
+  /* Container */
+  .container-fluid {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--section-px);
+  }
+
+  /* Responsive grid helpers */
+  .grid-auto-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr));
+    gap: clamp(16px, 3vw, 32px);
+  }
+
+  .grid-auto-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: clamp(14px, 2vw, 24px);
+  }
+
+  .grid-auto-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: clamp(12px, 2vw, 20px);
+  }
+
+  /* Responsive text sizes */
+  .text-hero   { font-size: clamp(40px, 8vw, 120px); }
+  .text-title  { font-size: clamp(28px, 5vw, 72px); }
+  .text-h2     { font-size: clamp(24px, 4vw, 56px); }
+  .text-h3     { font-size: clamp(18px, 3vw, 32px); }
+  .text-body   { font-size: clamp(13px, 1.5vw, 16px); }
+  .text-small  { font-size: clamp(10px, 1.2vw, 13px); }
+  .text-mono   { font-size: clamp(9px, 1vw, 12px); }
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════ */
+@layer components {
+
+  @keyframes blur-text {
+    0%   { filter: blur(0px); opacity: 1; }
+    100% { filter: blur(4px); opacity: 0.4; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ── Loading overlay ── */
+  .loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease-in-out;
+  }
+
+  .loading-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .loading-text {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 20px;
+  }
+
+  .loading-text span {
+    display: inline-block;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 200;
+    font-size: clamp(14px, 3vw, 18px);
+    letter-spacing: clamp(4px, 2vw, 8px);
+    filter: blur(0px);
+    animation: blur-text 1.5s infinite linear alternate;
+  }
+
+  .loading-text span:nth-child(1) { animation-delay: 0.0s; }
+  .loading-text span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-text span:nth-child(3) { animation-delay: 0.4s; }
+  .loading-text span:nth-child(4) { animation-delay: 0.6s; }
+  .loading-text span:nth-child(5) { animation-delay: 0.8s; }
+  .loading-text span:nth-child(6) { animation-delay: 1.0s; }
+  .loading-text span:nth-child(7) { animation-delay: 1.2s; }
+
+  /* ── Nav link ── */
+  .nav-link {
+    position: relative;
+    color: #dadada;
+    font-family: 'GeistMono', monospace;
+    font-weight: 300;
+    font-size: clamp(11px, 1.2vw, 13px);
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    padding-bottom: 2px;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 1px;
+    background: rgba(255, 255, 255, 0.5);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .nav-link:hover { color: #ffffff; }
+  .nav-link:hover::after { transform: scaleX(1); }
+
+  /* ── Responsive section wrapper ── */
+  .section-wrapper {
+    padding: var(--section-py) var(--section-px);
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+
+  /* ── Project detail 2-col layout → stacks on mobile ── */
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 60px;
+    padding-top: 60px;
+  }
+
+  /* ── Project card grid ── */
+  .project-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr));
+    gap: clamp(16px, 2vw, 28px);
+  }
+
+  /* ── Hamburger for mobile nav ── */
+  .nav-mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+    background: transparent;
+    border: none;
+  }
+
+  .nav-mobile-toggle span {
+    display: block;
+    width: 22px;
+    height: 1px;
+    background: rgba(255,255,255,0.7);
+    transition: all 0.3s ease;
+  }
+
+  /* ── Mobile nav drawer ── */
+  .nav-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(10,10,10,0.98);
+    z-index: 200;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .nav-mobile-menu.open {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .nav-mobile-menu .nav-link {
+    font-size: 22px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .nav-mobile-close {
+    position: absolute;
+    top: 28px; right: 24px;
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+═══════════════════════════════════════════ */
+
+/* ── Tablet (≤ 1024px) ── */
+@media (max-width: 1024px) {
+  :root {
+    --section-px: clamp(20px, 4vw, 48px);
+    --section-py: clamp(60px, 10vh, 120px);
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .detail-sidebar {
+    position: static !important;
+  }
+}
+
+/* ── Mobile (≤ 768px) ── */
+@media (max-width: 768px) {
+  :root {
+    --section-px: 18px;
+    --section-py: clamp(50px, 8vh, 90px);
+  }
+
+  .nav-desktop-links {
+    display: none !important;
+  }
+
+  .nav-mobile-toggle {
+    display: flex !important;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 40px;
+  }
+
+  .project-showcase-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-auto-2,
+  .grid-auto-3,
+  .grid-auto-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Small mobile (≤ 480px) ── */
+@media (max-width: 480px) {
+  :root {
+    --section-px: 16px;
+    --section-py: 50px;
+  }
+
+  .loading-text {
+    gap: 4px;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR STYLING
+═══════════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ═══════════════════════════════════════════
+   TOUCH-FRIENDLY TARGETS
+═══════════════════════════════════════════ */
+button, a, [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Override for inline spans/chips that shouldn't be touch targets */
+span.chip, span.badge, span[style*="padding"] {
+  min-height: unset;
+  min-width: unset;
+  display: inline;
+}

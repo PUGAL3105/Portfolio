@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pugalarasan A — Cinematic Resume</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+  width:100%;height:100dvh;overflow:hidden;
+  background:#03060f;font-family:'Inter',sans-serif;
+  perspective:1200px;
+}
+
+/* ── Responsive tokens ── */
+:root{
+  --font-hero: clamp(36px,8vw,112px);
+  --font-title: clamp(24px,5vw,80px);
+  --font-h3: clamp(18px,3vw,40px);
+  --font-body: clamp(11px,1.4vw,14px);
+  --font-small: clamp(9px,1vw,11px);
+  --font-mono: clamp(8px,0.9vw,10px);
+  --px: clamp(16px,5vw,120px);
+  --py: clamp(40px,6vh,60px);
+}
+
+/* ════════ CANVAS BG ════════ */
+#bg{position:fixed;inset:0;z-index:0;}
+
+/* ════════ PROGRESS ════════ */
+#bar{
+  position:fixed;top:0;left:0;height:2px;width:0%;
+  background:linear-gradient(90deg,#1d4ed8,#3b82f6,#93c5fd);
+  z-index:200;transition:width .6s linear;
+  box-shadow:0 0 10px #3b82f6;
+}
+
+/* ════════ WATERMARK ════════ */
+#wm{
+  position:fixed;bottom:28px;right:56px;z-index:200;
+  font-size:11px;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(255,255,255,0.12);font-weight:300;
+}
+
+/* ════════ BACK TO HOME ════════ */
+#back-home{
+  position:fixed;top:20px;left:24px;z-index:300;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 18px;border-radius:3px;
+  border:1px solid rgba(59,130,246,0.35);
+  background:rgba(3,6,15,0.7);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  color:rgba(255,255,255,0.7);
+  font-family:'Inter',sans-serif;font-size:11px;
+  letter-spacing:2px;text-transform:uppercase;text-decoration:none;
+  transition:all .25s ease;cursor:pointer;
+}
+#back-home:hover{
+  border-color:#3b82f6;color:#93c5fd;
+  background:rgba(29,78,216,0.15);
+  box-shadow:0 0 18px rgba(59,130,246,0.2);
+}
+#back-home svg{
+  width:12px;height:12px;transition:transform .2s ease;
+}
+#back-home:hover svg{transform:translateX(-3px);}
+
+/* ════════ HUD DOTS ════════ */
+#hud{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  z-index:200;display:flex;gap:8px;align-items:center;
+}
+.dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,0.15);cursor:pointer;transition:all .3s;
+}
+.dot.on{background:#3b82f6;box-shadow:0 0 10px #3b82f6;width:24px;border-radius:3px;}
+
+/* ════════ CONTROLS ════════ */
+#ctrl{
+  position:fixed;bottom:22px;right:180px;z-index:200;
+  display:flex;gap:8px;
+}
+.cb{
+  padding:6px 16px;border-radius:2px;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;border:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.04);
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;
+}
+.cb:hover{border-color:#3b82f6;color:#60a5fa;}
+
+/* ════════ SCENE BASE ════════ */
+.scene{
+  position:absolute;inset:0;
+  display:block; /* Block displays enable scrolling of overflowing flow content */
+  z-index:10;opacity:0;pointer-events:none;
+  transform:translateZ(40px) scale(1.03);
+  transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+}
+.scene.active{opacity:1;pointer-events:auto;transform:translateZ(0) scale(1);}
+.scene.exit{opacity:0;transform:translateZ(-80px) scale(0.96);}
+
+/* Wrapper auto flex configurations to allow safe centering without clipping */
+.intro-wrap, .edu-wrap, .int-wrap, .sk-wrap, .cert-wrap, .tool-wrap, .con-wrap, .out-wrap {
+  margin: 0 auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ════════ GLOBAL TEXT HELPERS ════════ */
+.label{
+  font-size:11px;letter-spacing:5px;text-transform:uppercase;
+  color:#3b82f6;font-weight:300;
+}
+.serif{font-family:'EB Garamond',serif;font-weight:400;}
+.dim{color:rgba(255,255,255,0.35);}
+.white{color:#fff;}
+.blue{color:#60a5fa;}
+
+/* 3-D floating animation */
+@keyframes float3d{
+  0%,100%{transform:translateY(0) rotateX(0deg);}
+  50%{transform:translateY(-12px) rotateX(2deg);}
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(40px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes fadeLeft{
+  from{opacity:0;transform:translateX(-50px);}
+  to{opacity:1;transform:translateX(0);}
+}
+@keyframes fadeRight{
+  from{opacity:0;transform:translateX(50px);}
+  to{opacity:1;transform:translateX(0);}
+}
+@keyframes scaleIn{
+  from{opacity:0;transform:scale(.85);}
+  to{opacity:1;transform:scale(1);}
+}
+@keyframes lineGrow{from{width:0;}to{width:100%;}}
+@keyframes barFill{from{width:0%;}to{width:var(--w);}}
+@keyframes countUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* stagger */
+.a1{opacity:0;animation:fadeUp .8s .1s ease forwards;}
+.a2{opacity:0;animation:fadeUp .8s .3s ease forwards;}
+.a3{opacity:0;animation:fadeUp .8s .5s ease forwards;}
+.a4{opacity:0;animation:fadeUp .8s .7s ease forwards;}
+.a5{opacity:0;animation:fadeUp .8s .9s ease forwards;}
+.a6{opacity:0;animation:fadeUp .8s 1.1s ease forwards;}
+.a7{opacity:0;animation:fadeUp .8s 1.3s ease forwards;}
+.a8{opacity:0;animation:fadeUp .8s 1.5s ease forwards;}
+.al1{opacity:0;animation:fadeLeft .8s .1s ease forwards;}
+.al2{opacity:0;animation:fadeLeft .8s .35s ease forwards;}
+.al3{opacity:0;animation:fadeLeft .8s .6s ease forwards;}
+.al4{opacity:0;animation:fadeLeft .8s .85s ease forwards;}
+.ar1{opacity:0;animation:fadeRight .8s .2s ease forwards;}
+.ar2{opacity:0;animation:fadeRight .8s .45s ease forwards;}
+.ar3{opacity:0;animation:fadeRight .8s .7s ease forwards;}
+.sc1{opacity:0;animation:scaleIn .7s .15s ease forwards;}
+.sc2{opacity:0;animation:scaleIn .7s .35s ease forwards;}
+.sc3{opacity:0;animation:scaleIn .7s .55s ease forwards;}
+.sc4{opacity:0;animation:scaleIn .7s .75s ease forwards;}
+.sc5{opacity:0;animation:scaleIn .7s .95s ease forwards;}
+.sc6{opacity:0;animation:scaleIn .7s 1.15s ease forwards;}
+
+/* ════════ DIVIDER LINE ════════ */
+.line{
+  height:1px;background:rgba(255,255,255,0.08);
+  animation:lineGrow 1s ease forwards;
+}
+
+/* ════════ SECTION TAG ════════ */
+.stag{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:11px;letter-spacing:5px;text-transform:uppercase;
+  color:#3b82f6;font-weight:300;
+}
+.stag::before{content:'';display:block;width:32px;height:1px;background:#3b82f6;}
+
+/* ════════ GLASS CARD ════════ */
+.gcard{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:4px;
+  backdrop-filter:blur(12px);
+  transition:border-color .3s;
+}
+.gcard:hover{border-color:rgba(59,130,246,0.3);}
+
+/* ════════ SCENE 0 — INTRO (IDENTITY) ════════ */
+#s0{background:radial-gradient(ellipse at 30% 50%,rgba(29,78,216,0.12) 0%,transparent 60%);}
+.intro-wrap{
+  display:grid;grid-template-columns:1fr 1px 1fr;
+  max-width:1400px;width:100%;gap:clamp(24px,5vw,80px);align-items:center;
+  padding:0 var(--px);
+}
+.intro-left{display:flex;flex-direction:column;gap:20px;}
+.intro-name{
+  font-family:'EB Garamond',serif;
+  font-size:clamp(40px,9vw,112px);line-height:1;
+  color:#fff;letter-spacing:clamp(-2px,-0.3vw,-4px);font-weight:400;
+  animation:float3d 6s ease-in-out infinite;
+  text-shadow:0 0 80px rgba(59,130,246,0.2);
+}
+.intro-name span{color:#3b82f6;}
+.intro-sub{
+  font-size:clamp(12px,1.5vw,16px);font-weight:300;color:rgba(255,255,255,0.5);
+  line-height:1.7;max-width:480px;
+}
+.intro-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.ichip{
+  padding:clamp(4px,0.5vh,6px) clamp(10px,1.2vw,16px);
+  border-radius:2px;font-size:clamp(9px,1vw,11px);
+  letter-spacing:1.5px;text-transform:uppercase;
+  border:1px solid rgba(59,130,246,0.3);
+  background:rgba(59,130,246,0.07);color:#93c5fd;
+}
+.intro-right{display:flex;flex-direction:column;gap:clamp(14px,2vh,28px);}
+.info-row{display:flex;flex-direction:column;gap:4px;}
+.info-key{font-size:clamp(8px,0.9vw,10px);letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.25);}
+.info-val{font-size:clamp(13px,1.6vw,18px);font-weight:300;color:#fff;}
+.info-val.hl{color:#60a5fa;font-family:'EB Garamond',serif;font-size:clamp(16px,2vw,22px);}
+
+/* ════════ SCENE 1 — EDUCATION ════════ */
+#s1{background:radial-gradient(ellipse at 70% 30%,rgba(29,78,216,0.1) 0%,transparent 60%);}
+.edu-wrap{max-width:1300px;width:100%;padding:0 var(--px);}
+.edu-title{font-family:'EB Garamond',serif;font-size:clamp(32px,7vw,80px);color:#fff;letter-spacing:-2px;margin:clamp(12px,2vh,24px) 0;}
+.edu-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(14px,2vw,24px);margin-top:clamp(20px,3vh,40px);}
+.edu-card{padding:clamp(20px,3vw,40px);border-radius:4px;}
+.edu-deg{font-size:clamp(9px,1vw,13px);letter-spacing:3px;text-transform:uppercase;color:#3b82f6;margin-bottom:12px;}
+.edu-name{font-family:'EB Garamond',serif;font-size:clamp(18px,3vw,32px);color:#fff;line-height:1.2;margin-bottom:8px;}
+.edu-school{font-size:clamp(11px,1.3vw,14px);font-weight:300;color:rgba(255,255,255,0.4);}
+.edu-meta{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;}
+.edu-badge{padding:4px 12px;border-radius:2px;font-size:clamp(9px,1vw,11px);letter-spacing:1.5px;text-transform:uppercase;}
+.edu-badge.cgpa{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:#22c55e;}
+.edu-badge.yr{background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);color:#60a5fa;}
+.cgpa-dial{
+  width:clamp(70px,10vw,120px);height:clamp(70px,10vw,120px);border-radius:50%;
+  border:3px solid rgba(59,130,246,0.2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin-top:clamp(12px,2vh,24px);
+  box-shadow:inset 0 0 30px rgba(59,130,246,0.1),0 0 40px rgba(59,130,246,0.08);
+}
+.cgpa-num{font-family:'EB Garamond',serif;font-size:clamp(22px,4vw,36px);color:#fff;}
+.cgpa-label{font-size:clamp(7px,0.8vw,9px);letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+
+/* ════════ SCENE 2 — INTERNSHIP ════════ */
+#s2{background:radial-gradient(ellipse at 20% 60%,rgba(29,78,216,0.1) 0%,transparent 60%);}
+.int-wrap{max-width:1300px;width:100%;padding:0 var(--px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:clamp(24px,5vw,80px);align-items:center;}
+.int-number{
+  font-family:'EB Garamond',serif;font-size:clamp(80px,18vw,240px);
+  color:rgba(59,130,246,0.06);line-height:1;
+  position:absolute;top:-40px;left:-10px;font-weight:400;
+  pointer-events:none;letter-spacing:-6px;
+}
+.int-left{position:relative;}
+.int-title{font-family:'EB Garamond',serif;font-size:clamp(28px,6vw,72px);color:#fff;letter-spacing:-2px;line-height:1.1;margin:clamp(10px,2vh,20px) 0;}
+.int-org{font-size:clamp(14px,2.5vw,28px);font-weight:300;color:#3b82f6;margin-bottom:4px;}
+.int-role{font-size:clamp(11px,1.2vw,14px);color:rgba(255,255,255,0.35);letter-spacing:1px;}
+.int-points{display:flex;flex-direction:column;gap:clamp(8px,1.5vh,16px);margin-top:8px;}
+.int-point{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:clamp(12px,1.5vh,16px) clamp(14px,2vw,20px);border-radius:3px;
+  background:rgba(59,130,246,0.05);border-left:2px solid rgba(59,130,246,0.3);
+}
+.int-point-icon{font-size:clamp(14px,2vw,18px);margin-top:2px;}
+.int-point-text{font-size:clamp(10px,1.2vw,13px);font-weight:300;color:rgba(255,255,255,0.55);line-height:1.6;}
+
+/* ════════ SCENE 3 — SKILLS ════════ */
+#s3{}
+.sk-wrap{max-width:1400px;width:100%;padding:0 var(--px);}
+.sk-title{font-family:'EB Garamond',serif;font-size:clamp(32px,7vw,80px);color:#fff;letter-spacing:-2px;margin:clamp(12px,2vh,24px) 0 clamp(20px,4vh,48px);}
+.sk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:clamp(12px,1.5vw,20px);}
+.sk-item{
+  padding:clamp(16px,2vw,24px) clamp(14px,2vw,20px);border-radius:4px;
+  background:rgba(255,255,255,0.025);
+  border:1px solid rgba(255,255,255,0.06);
+  display:flex;flex-direction:column;gap:10px;
+  transition:all .3s;
+}
+.sk-icon{font-size:clamp(18px,2.5vw,24px);}
+.sk-name{font-size:clamp(9px,1vw,12px);letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.55);}
+.sk-bar-track{height:2px;background:rgba(255,255,255,0.07);border-radius:1px;overflow:hidden;}
+.sk-bar-fill{
+  height:100%;border-radius:1px;
+  background:linear-gradient(90deg,#1d4ed8,#60a5fa);
+  --w:80%;animation:barFill 1.5s ease forwards;
+}
+
+/* ════════ SCENE 4 — PROJECTS ════════ */
+#s4{background:radial-gradient(ellipse at 50% 80%,rgba(29,78,216,0.08) 0%,transparent 60%);}
+.pj-wrap{max-width:1400px;width:100%;padding:0 var(--px);}
+.pj-title{font-family:'EB Garamond',serif;font-size:clamp(32px,7vw,80px);color:#fff;letter-spacing:-2px;margin:clamp(12px,2vh,24px) 0 clamp(20px,4vh,48px);}
+.pj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(14px,2vw,24px);}
+.pj-card{
+  padding:clamp(20px,3vw,36px);border-radius:4px;
+  background:rgba(255,255,255,0.025);
+  border:1px solid rgba(255,255,255,0.07);
+  display:flex;flex-direction:column;gap:12px;
+  position:relative;overflow:hidden;
+}
+.pj-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#1d4ed8,#3b82f6,transparent);
+}
+.pj-num{font-size:clamp(36px,6vw,64px);font-family:'EB Garamond',serif;color:rgba(59,130,246,0.1);position:absolute;top:16px;right:20px;line-height:1;}
+.pj-tag{font-size:clamp(8px,0.9vw,10px);letter-spacing:3px;text-transform:uppercase;color:#3b82f6;}
+.pj-name{font-family:'EB Garamond',serif;font-size:clamp(16px,2.5vw,30px);color:#fff;line-height:1.2;}
+.pj-year{font-size:clamp(10px,1vw,12px);color:rgba(255,255,255,0.25);}
+.pj-desc{font-size:clamp(10px,1.2vw,13px);font-weight:300;color:rgba(255,255,255,0.45);line-height:1.8;}
+.pj-stack{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
+.pj-tech{
+  padding:3px 8px;border-radius:2px;font-size:clamp(8px,0.9vw,10px);
+  letter-spacing:1px;text-transform:uppercase;
+  background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);color:#93c5fd;
+}
+
+/* ════════ SCENE 5 — CERTIFICATIONS ════════ */
+#s5{background:radial-gradient(ellipse at 80% 50%,rgba(29,78,216,0.1) 0%,transparent 60%);}
+.cert-wrap{max-width:1200px;width:100%;padding:0 var(--px);}
+.cert-title{font-family:'EB Garamond',serif;font-size:clamp(32px,7vw,80px);color:#fff;letter-spacing:-2px;margin:clamp(12px,2vh,24px) 0 clamp(20px,4vh,48px);}
+.cert-list{display:flex;flex-direction:column;gap:clamp(10px,1.5vh,16px);}
+.cert-row{
+  display:flex;align-items:center;gap:clamp(14px,2vw,24px);
+  padding:clamp(14px,2vh,20px) clamp(16px,2.5vw,28px);border-radius:4px;
+  background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);
+  flex-wrap:wrap;
+}
+.cert-icon{
+  width:clamp(36px,5vw,44px);height:clamp(36px,5vw,44px);border-radius:3px;
+  background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.2);
+  display:flex;align-items:center;justify-content:center;font-size:clamp(16px,2vw,20px);flex-shrink:0;
+}
+.cert-body{flex:1;min-width:160px;}
+.cert-name{font-size:clamp(12px,1.5vw,15px);font-weight:400;color:#fff;margin-bottom:4px;}
+.cert-issuer{font-size:clamp(10px,1.1vw,12px);font-weight:300;color:rgba(255,255,255,0.35);letter-spacing:1px;}
+.cert-badge{
+  padding:4px 10px;border-radius:20px;font-size:clamp(8px,0.9vw,10px);letter-spacing:1.5px;
+  text-transform:uppercase;background:rgba(34,197,94,0.1);
+  border:1px solid rgba(34,197,94,0.25);color:#22c55e;flex-shrink:0;
+}
+
+/* ════════ SCENE 6 — TOOLS & STRENGTHS ════════ */
+#s6{background:radial-gradient(ellipse at 30% 70%,rgba(29,78,216,0.1) 0%,transparent 55%);}
+.tool-wrap{max-width:1300px;width:100%;padding:0 var(--px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(24px,5vw,80px);align-items:start;}
+.tool-title{font-family:'EB Garamond',serif;font-size:clamp(28px,5vw,64px);color:#fff;letter-spacing:-1px;margin:clamp(12px,2vh,24px) 0 clamp(16px,3vh,32px);line-height:1.1;}
+.tool-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.tpill{
+  padding:clamp(5px,0.8vh,8px) clamp(12px,1.5vw,18px);border-radius:2px;font-size:clamp(9px,1vw,11px);letter-spacing:2px;text-transform:uppercase;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);
+  color:rgba(255,255,255,0.5);transition:all .3s;
+}
+.strength-list{display:flex;flex-direction:column;gap:clamp(8px,1.2vh,12px);}
+.str-row{
+  display:flex;align-items:center;gap:14px;
+  padding:clamp(12px,1.5vh,16px) clamp(14px,2vw,20px);border-radius:3px;
+  background:rgba(255,255,255,0.025);border-left:2px solid rgba(59,130,246,0.3);
+}
+.str-dot{width:6px;height:6px;border-radius:50%;background:#3b82f6;flex-shrink:0;}
+.str-text{font-size:clamp(11px,1.3vw,14px);font-weight:300;color:rgba(255,255,255,0.55);}
+
+/* ════════ SCENE 7 — CONTACT ════════ */
+#s7{background:radial-gradient(ellipse at 50% 50%,rgba(29,78,216,0.12) 0%,transparent 65%);}
+.con-wrap{max-width:1200px;width:100%;padding:0 var(--px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:clamp(16px,3vh,32px);}
+.con-title{font-family:'EB Garamond',serif;font-size:clamp(36px,9vw,96px);color:#fff;letter-spacing:-2px;animation:float3d 6s ease-in-out infinite;}
+.con-sub{font-size:clamp(10px,1.2vw,16px);font-weight:300;color:rgba(255,255,255,0.35);letter-spacing:2px;text-transform:uppercase;}
+.con-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:clamp(12px,1.5vw,20px);width:100%;}
+.con-card{
+  padding:clamp(16px,2.5vh,28px) clamp(14px,2vw,24px);border-radius:4px;
+  background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.con-icon{font-size:clamp(20px,3vw,28px);}
+.con-label{font-size:clamp(8px,0.9vw,10px);letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);}
+.con-value{font-size:clamp(10px,1.2vw,13px);font-weight:300;color:#fff;word-break:break-all;text-align:center;}
+.con-value.hl{color:#60a5fa;}
+
+/* ════════ SCENE 8 — OUTRO ════════ */
+#s8{background:radial-gradient(ellipse at 50% 50%,rgba(29,78,216,0.15) 0%,transparent 60%);}
+.out-wrap{text-align:center;display:flex;flex-direction:column;align-items:center;gap:clamp(12px,2vh,24px);padding:0 var(--px);}
+.out-ty{font-size:clamp(9px,1vw,12px);letter-spacing:clamp(3px,1vw,8px);text-transform:uppercase;color:rgba(255,255,255,0.3);}
+.out-name{
+  font-family:'EB Garamond',serif;font-size:clamp(36px,11vw,120px);font-weight:400;
+  color:#fff;letter-spacing:clamp(-2px,-0.3vw,-4px);
+  animation:float3d 5s ease-in-out infinite;
+  text-shadow:0 0 120px rgba(59,130,246,0.25);
+}
+.out-roles{display:flex;gap:clamp(8px,1.5vw,16px);align-items:center;margin-top:4px;flex-wrap:wrap;justify-content:center;}
+.out-role{font-size:clamp(9px,1.1vw,14px);letter-spacing:3px;text-transform:uppercase;color:#3b82f6;font-weight:300;}
+.out-sep{color:rgba(59,130,246,0.3);}
+.out-line{width:clamp(40px,7vw,100px);height:1px;background:rgba(59,130,246,0.35);}
+.out-contact{display:flex;gap:clamp(8px,1.5vw,16px);margin-top:clamp(8px,1.5vh,16px);flex-wrap:wrap;justify-content:center;}
+.out-chip{
+  padding:6px 18px;border-radius:2px;font-size:11px;letter-spacing:1.5px;
+  background:rgba(59,130,246,0.07);border:1px solid rgba(59,130,246,0.2);
+  color:#93c5fd;
+}
+
+/* ════════ 3D ORB ════════ */
+.orb{
+  position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;
+  animation:float3d 8s ease-in-out infinite;
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+<div id="bar"></div>
+<a id="back-home" href="/" title="Back to Portfolio">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="15 18 9 12 15 6"></polyline>
+  </svg>
+  Back to Home
+</a>
+<div id="wm">PUGALARASAN A · 2026</div>
+<div id="hud"></div>
+<div id="ctrl">
+  <button class="cb" onclick="prev()">◀</button>
+  <button class="cb" id="pb" onclick="toggle()">⏸</button>
+  <button class="cb" onclick="next()">▶</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCENE 0 — IDENTITY / INTRO
+══════════════════════════════════════════ -->
+<div class="scene active" id="s0">
+  <div class="orb" style="width:600px;height:600px;background:rgba(29,78,216,0.12);top:-100px;left:-100px;animation-delay:0s;"></div>
+  <div class="orb" style="width:400px;height:400px;background:rgba(59,130,246,0.07);bottom:-80px;right:0;animation-delay:3s;"></div>
+  <div class="intro-wrap">
+    <div class="intro-left">
+      <div class="stag a1">Identity</div>
+      <h1 class="intro-name a2">
+        Pugala<br/>rasan <span>A</span>
+      </h1>
+      <p class="intro-sub a3">
+        Computer Science Engineering Student<br/>
+        AI · Full Stack · Computer Vision · Cybersecurity
+      </p>
+      <div class="intro-chips a4">
+        <span class="ichip">AI / ML</span>
+        <span class="ichip">Full Stack</span>
+        <span class="ichip">Computer Vision</span>
+        <span class="ichip">Cybersecurity</span>
+        <span class="ichip">Web Dev</span>
+      </div>
+      <div class="intro-chips a5">
+        <span class="ichip" style="border-color:rgba(34,197,94,0.3);color:#86efac;background:rgba(34,197,94,0.06);">📧 pugalarasan0310@gmail.com</span>
+        <span class="ichip" style="border-color:rgba(34,197,94,0.3);color:#86efac;background:rgba(34,197,94,0.06);">📞 +91 8220358427</span>
+      </div>
+    </div>
+    <div style="width:1px;height:400px;background:rgba(255,255,255,0.06);"></div>
+    <div class="intro-right">
+      <div class="info-row ar1">
+        <div class="info-key">Location</div>
+        <div class="info-val">Krishnagiri, Tamil Nadu, India</div>
+      </div>
+      <div class="line ar1"></div>
+      <div class="info-row ar2">
+        <div class="info-key">Degree</div>
+        <div class="info-val hl">B.E. Computer Science &amp; Engineering</div>
+      </div>
+      <div class="line ar2"></div>
+      <div class="info-row ar3">
+        <div class="info-key">Institution</div>
+        <div class="info-val">Dr. N.G.P. Institute of Technology, Coimbatore</div>
+      </div>
+      <div class="line ar3" style="animation-delay:.6s"></div>
+      <div class="info-row" style="opacity:0;animation:fadeRight .8s .85s ease forwards;">
+        <div class="info-key">Current CGPA</div>
+        <div class="info-val hl" style="font-size:40px;color:#22c55e;">7.54</div>
+      </div>
+      <div class="line" style="animation-delay:1s"></div>
+      <div class="info-row" style="opacity:0;animation:fadeRight .8s 1.05s ease forwards;">
+        <div class="info-key">Batch</div>
+        <div class="info-val">2023 – Present</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCENE 1 — EDUCATION
+══════════════════════════════════════════ -->
+<div class="scene" id="s1">
+  <div class="orb" style="width:500px;height:500px;background:rgba(29,78,216,0.1);top:50%;right:-100px;transform:translateY(-50%);"></div>
+  <div class="edu-wrap">
+    <div class="stag a1">Academic Background</div>
+    <h2 class="edu-title a2">Education</h2>
+    <div class="line a2"></div>
+    <div class="edu-cards">
+      <!-- BE -->
+      <div class="gcard edu-card sc1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div>
+            <div class="edu-deg">Undergraduate · Current</div>
+            <div class="edu-name">Bachelor of Engineering<br/>Computer Science &amp; Engineering</div>
+            <div class="edu-school">Dr. N.G.P. Institute of Technology<br/>Coimbatore, Tamil Nadu</div>
+            <div class="edu-meta">
+              <span class="edu-badge yr">2023 – Present</span>
+              <span class="edu-badge cgpa">CGPA: 7.54 / 10</span>
+            </div>
+          </div>
+          <div class="cgpa-dial">
+            <div class="cgpa-num">7.54</div>
+            <div class="cgpa-label">CGPA</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:10px;">Relevant Coursework</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span class="ichip">Data Structures</span>
+            <span class="ichip">Machine Learning</span>
+            <span class="ichip">Computer Vision</span>
+            <span class="ichip">OS</span>
+            <span class="ichip">Networking</span>
+          </div>
+        </div>
+      </div>
+      <!-- HSC -->
+      <div class="gcard edu-card sc2">
+        <div class="edu-deg">Higher Secondary · 2023</div>
+        <div class="edu-name">Higher Secondary Certificate<br/>(HSC · Class XII)</div>
+        <div class="edu-school">Government Higher Secondary School<br/>Krishnagiri, Tamil Nadu</div>
+        <div class="edu-meta">
+          <span class="edu-badge yr">2021 – 2023</span>
+          <span class="edu-badge cgpa">Score: 68.8%</span>
+        </div>
+        <div style="margin-top:24px;padding:20px;border-radius:4px;background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.12);">
+          <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(59,130,246,0.7);margin-bottom:8px;">Academic Journey</div>
+          <div style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.45);line-height:1.8;">
+            Strong foundation in Mathematics, Physics, and Computer Science.<br/>
+            Currently pursuing specialization in AI &amp; Full Stack Development.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCENE 2 — INTERNSHIP
+══════════════════════════════════════════ -->
+<div class="scene" id="s2">
+  <div class="orb" style="width:600px;height:600px;background:rgba(29,78,216,0.1);bottom:-150px;left:-100px;animation-delay:1s;"></div>
+  <div class="int-wrap">
+    <div class="int-left">
+      <div class="int-number">01</div>
+      <div class="stag al1">Professional Experience</div>
+      <h2 class="int-title al2">Skylena<br/>Internship</h2>
+      <div class="al3">
+        <div class="int-org">Skylena Info Technology Pvt. Ltd.</div>
+        <div class="int-role">Web Application Development · 2025</div>
+      </div>
+    </div>
+    <div>
+      <div class="int-points">
+        <div class="int-point sc1">
+          <div class="int-point-icon">🌐</div>
+          <div class="int-point-text">Built responsive, dynamic web interfaces using HTML, CSS, JavaScript for real-time production projects under professional guidance.</div>
+        </div>
+        <div class="int-point sc2">
+          <div class="int-point-icon">🔗</div>
+          <div class="int-point-text">Integrated frontend layouts with backend APIs and database operations — ensuring cross-browser compatibility and smooth user experiences.</div>
+        </div>
+        <div class="int-point sc3">
+          <div class="int-point-icon">⚡</div>
+          <div class="int-point-text">Worked in agile sprint cycles, collaborating with senior developers, maintaining deadlines, and delivering modular, reusable code components.</div>
+        </div>
+        <div class="int-point sc4">
+          <div class="int-point-icon">📱</div>
+          <div class="int-point-text">Focused on performance optimization, mobile responsiveness, and modern UI/UX principles to build high-impact web products.</div>
+        </div>
+        <div class="int-point sc5" style="background:rgba(34,197,94,0.05);border-left-color:rgba(34,197,94,0.4);">
+          <div class="int-point-icon">✅</div>
+          <div class="int-point-text" style="color:rgba(134,239,172,0.7);">Successfully completed — gained real industry experience in full-stack web application development.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCENE 3 — TECHNICAL SKILLS
+══════════════════════════════════════════ -->
+<div class="scene" id="s3">
+  <div class="orb" style="width:700px;height:700px;background:rgba(29,78,216,0.08);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:2s;"></div>
+  <div class="sk-wrap">
+    <div class="stag a1">Technical Arsenal</div>
+    <h2 class="sk-title a2">Skills &amp; Technologies</h2>
+    <div class="sk-grid">
+      <div class="sk-item sc1"><div class="sk-icon">☕</div><div class="sk-name">Java</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:80%;"></div></div></div>
+      <div class="sk-item sc1"><div class="sk-icon">🌐</div><div class="sk-name">HTML &amp; CSS</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:92%;animation-delay:.1s;"></div></div></div>
+      <div class="sk-item sc2"><div class="sk-icon">⚡</div><div class="sk-name">JavaScript</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:86%;animation-delay:.15s;"></div></div></div>
+      <div class="sk-item sc2"><div class="sk-icon">📱</div><div class="sk-name">Flutter</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:76%;animation-delay:.2s;"></div></div></div>
+      <div class="sk-item sc3"><div class="sk-icon">🐍</div><div class="sk-name">Python</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:88%;animation-delay:.25s;"></div></div></div>
+      <div class="sk-item sc3"><div class="sk-icon">🤖</div><div class="sk-name">AI &amp; Machine Learning</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:80%;animation-delay:.3s;"></div></div></div>
+      <div class="sk-item sc4"><div class="sk-icon">👁</div><div class="sk-name">OpenCV / Computer Vision</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:78%;animation-delay:.35s;"></div></div></div>
+      <div class="sk-item sc4"><div class="sk-icon">🐙</div><div class="sk-name">Git &amp; GitHub</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:85%;animation-delay:.4s;"></div></div></div>
+      <div class="sk-item sc5"><div class="sk-icon">📊</div><div class="sk-name">Power BI</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:72%;animation-delay:.45s;"></div></div></div>
+      <div class="sk-item sc5"><div class="sk-icon">🎨</div><div class="sk-name">Figma</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:80%;animation-delay:.5s;"></div></div></div>
+      <div class="sk-item sc6"><div class="sk-icon">✨</div><div class="sk-name">Prompt Engineering</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:90%;animation-delay:.55s;"></div></div></div>
+      <div class="sk-item sc6"><div class="sk-icon">🔄</div><div class="sk-name">n8n Automation</div><div class="sk-bar-track"><div class="sk-bar-fill" style="--w:82%;animation-delay:.6s;"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCENE 4 — PROJECTS (SCROLLABLE DETAIL)
+══════════════════════════════════════════ -->
+<div class="scene" id="s4" style="align-items:flex-start;padding:0;">
+  <div class="orb" style="width:500px;height:500px;background:rgba(29,78,216,0.08);top:-100px;right:-80px;animation-delay:1s;position:fixed;pointer-events:none;"></div>
+
+  <!-- Scrollable container -->
+  <div id="pj-scroll" style="
+    width:100%;height:1080px;overflow-y:auto;overflow-x:hidden;
+    padding:60px 120px 120px;
+    scroll-behavior:smooth;
+    scrollbar-width:thin;scrollbar-color:rgba(59,130,246,0.3) transparent;
+  ">
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:48px;">
+      <div>
+        <div class="stag a1">Portfolio · 4 Projects</div>
+        <h2 style="font-family:'EB Garamond',serif;font-size:72px;color:#fff;letter-spacing:-2px;margin:16px 0 0;line-height:1;" class="a2">Projects</h2>
+      </div>
+      <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.2);text-align:right;">
+        Scroll ↓ to explore<br/>
+        <span style="font-size:9px;">or use mouse wheel</span>
+      </div>
+    </div>
+    <div style="width:100%;height:1px;background:rgba(255,255,255,0.08);margin-bottom:48px;"></div>
+
+    <!-- PROJECT 01: CyberShield -->
+    <div style="margin-bottom:56px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;background:#0c0c0c;" class="sc1">
+      <div style="height:3px;background:linear-gradient(90deg,rgba(239,68,68,0.9),transparent);"></div>
+      <div style="padding:36px 40px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:20px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#ef4444;margin-bottom:8px;">01 · AI · Cybersecurity · 2026</div>
+            <h3 style="font-family:'EB Garamond',serif;font-size:40px;color:#fff;font-weight:400;letter-spacing:-1px;margin:0 0 6px;">CyberShield AI Suite</h3>
+            <p style="font-size:13px;color:rgba(255,255,255,0.35);font-weight:300;">Intelligent Multi-Layer Threat Detection &amp; Real-Time Response System</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;">Python</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;">FastAPI</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;">Random Forest</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;">Node.js</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;">React</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;">SQLite</span>
+          </div>
+        </div>
+        <p style="font-size:14px;font-weight:300;color:rgba(218,218,218,0.55);line-height:1.9;margin-bottom:28px;">
+          A full-stack cybersecurity platform built with a three-tier microservices architecture. The system analyses live network traffic using a Random Forest Classifier trained on 20 precise network flow attributes — detecting and classifying threats in milliseconds with MITRE ATT&amp;CK technique mapping for security analysts.
+        </p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;">
+          <div style="padding:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+            <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:14px;">Architecture</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">ML Service</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">Python · FastAPI · port 8000</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Backend API</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">Node.js · Express · port 3001</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Frontend</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">React · Tailwind · port 5173</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Database</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">cybershield.db (SQLite)</span></div>
+            </div>
+          </div>
+          <div style="padding:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+            <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:14px;">Key Highlights</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● 20 network flow features: Flow Duration, Packet Length Mean, IAT time, Header Lengths</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● 6 threat classes: BENIGN, BRUTE_FORCE, DDOS, MALWARE, SUSPICIOUS_IP, UNAUTHORIZED</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● Auto containment: IP blocklist, MFA trigger, host isolation</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● MITRE ATT&amp;CK technique mapping for each threat class</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 02: Brain Tumor -->
+    <div style="margin-bottom:56px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;background:#0c0c0c;" class="sc2">
+      <div style="height:3px;background:linear-gradient(90deg,rgba(59,130,246,0.9),transparent);"></div>
+      <div style="padding:36px 40px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:20px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#3b82f6;margin-bottom:8px;">02 · AI · Medical Imaging · 2026</div>
+            <h3 style="font-family:'EB Garamond',serif;font-size:40px;color:#fff;font-weight:400;letter-spacing:-1px;margin:0 0 6px;">Brain Tumor Detection</h3>
+            <p style="font-size:13px;color:rgba(255,255,255,0.35);font-weight:300;">Automated MRI Segmentation &amp; Computer-Aided Diagnostic System</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);color:#93c5fd;">Python</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);color:#93c5fd;">OpenCV</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);color:#93c5fd;">SVM</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);color:#93c5fd;">Watershed</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);color:#93c5fd;">CLAHE</span>
+          </div>
+        </div>
+        <p style="font-size:14px;font-weight:300;color:rgba(218,218,218,0.55);line-height:1.9;margin-bottom:28px;">
+          A medical AI system that processes MRI brain scans through a multi-stage image processing pipeline to detect, segment, and classify tumours with high accuracy. Provides radiologists with an objective secondary opinion to support early clinical diagnosis, reducing human error and speeding up triage.
+        </p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;">
+          <div style="padding:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+            <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:14px;">Processing Pipeline</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Step 1</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">Skull stripping + normalization</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Step 2</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">CLAHE contrast enhancement</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Step 3</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">Gaussian noise removal</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Step 4</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">Watershed Segmentation</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Step 5</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">SVM + Random Forest classify</span></div>
+            </div>
+          </div>
+          <div style="padding:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+            <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:14px;">Key Highlights</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● Pixel-level segmentation using topological gradient computation</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● Feature extraction: area, perimeter, circularity, texture indices</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● 87%+ confidence score in Glioma vs Benign classification</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● Streamlit web UI for MRI upload and live diagnostic output</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 03: AR Fashion -->
+    <div style="margin-bottom:56px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;background:#0c0c0c;" class="sc3">
+      <div style="height:3px;background:linear-gradient(90deg,rgba(168,85,247,0.9),transparent);"></div>
+      <div style="padding:36px 40px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:20px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#a855f7;margin-bottom:8px;">03 · AR · Computer Vision · 2025</div>
+            <h3 style="font-family:'EB Garamond',serif;font-size:40px;color:#fff;font-weight:400;letter-spacing:-1px;margin:0 0 6px;">AR Style Fashion Fitting</h3>
+            <p style="font-size:13px;color:rgba(255,255,255,0.35);font-weight:300;">Holographic Virtual Try-On via Real-Time Body Tracking</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);color:#d8b4fe;">Flutter</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);color:#d8b4fe;">MediaPipe</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);color:#d8b4fe;">OpenCV</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);color:#d8b4fe;">Python</span>
+          </div>
+        </div>
+        <p style="font-size:14px;font-weight:300;color:rgba(218,218,218,0.55);line-height:1.9;margin-bottom:28px;">
+          An augmented reality shopping experience using Flutter and Python. The system tracks 17 body skeleton joints in real-time using MediaPipe, then warps and scales 2D/3D garment assets onto the user's live camera frame — allowing customers to try on outfits digitally before purchasing. Drag, resize, and rotate controls give precise fitting.
+        </p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;">
+          <div style="padding:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+            <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:14px;">Architecture</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Body Tracking</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">MediaPipe · 17 landmarks</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">CV Pipeline</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">OpenCV · Contour Mapping</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Mobile App</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">Flutter · Dart (iOS + Android)</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Backend</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">Python · REST API</span></div>
+            </div>
+          </div>
+          <div style="padding:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+            <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:14px;">Key Highlights</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● 17 skeletal landmarks: shoulders, elbows, wrists, hips, knees</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● Dynamic garment warp, scale, rotate matching user body</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● Built-in wardrobe carousel — switch outfits instantly</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● Export final composed image to reduce return rates</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 04: Portfolio -->
+    <div style="margin-bottom:48px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;background:#0c0c0c;" class="sc4">
+      <div style="height:3px;background:linear-gradient(90deg,rgba(251,191,36,0.9),transparent);"></div>
+      <div style="padding:36px 40px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:20px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#fbbf24;margin-bottom:8px;">04 · Web · AI · 2026</div>
+            <h3 style="font-family:'EB Garamond',serif;font-size:40px;color:#fff;font-weight:400;letter-spacing:-1px;margin:0 0 6px;">Cognitive Developer Portfolio</h3>
+            <p style="font-size:13px;color:rgba(255,255,255,0.35);font-weight:300;">Premium Portfolio with Simulated Agentic AI Reasoning Terminal</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);color:#fde68a;">React 19</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);color:#fde68a;">TypeScript</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);color:#fde68a;">Vite 7</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);color:#fde68a;">GSAP</span>
+            <span style="padding:4px 12px;border-radius:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);color:#fde68a;">Canvas</span>
+          </div>
+        </div>
+        <p style="font-size:14px;font-weight:300;color:rgba(218,218,218,0.55);line-height:1.9;margin-bottom:28px;">
+          This very portfolio — built with React 19, TypeScript, and Vite 7. Features custom Canvas digital-rain waterfall animation, SVG liquid-glass button refractions, a simulated 4-step AI reasoning chatbot terminal, and dynamic React Router sub-routing for all project and expertise detail pages.
+        </p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+          <div style="padding:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+            <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:14px;">Architecture</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Frontend</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">React 19 · TypeScript · Vite 7</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Animation</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">GSAP · Canvas API · SVG Filters</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">Routing</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">React Router DOM</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="font-size:11px;color:rgba(255,255,255,0.3);">AI Twin</span><span style="font-size:11px;color:rgba(255,255,255,0.65);">CognitiveAssistant.tsx</span></div>
+            </div>
+          </div>
+          <div style="padding:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:3px;">
+            <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:14px;">Key Highlights</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● Custom Canvas digital rain with mouse ripple interactions</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● 4-step visible reasoning: intent → retrieval → verify → synthesise</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● Self-correcting AI twin detects factual mismatches in queries</div>
+              <div style="font-size:12px;color:rgba(218,218,218,0.5);line-height:1.6;">● Sub-pages: /capability/:slug and /project/:slug routes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll end indicator -->
+    <div style="text-align:center;padding:20px 0 40px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.15);">
+      ↑ Scroll up · ↓ Press Next to continue
+    </div>
+  </div>
+
+  <!-- Scroll progress bar (right side) -->
+  <div style="position:fixed;right:32px;top:50%;transform:translateY(-50%);width:2px;height:300px;background:rgba(255,255,255,0.07);border-radius:1px;z-index:200;">
+    <div id="pj-scroll-bar" style="width:100%;height:0%;background:#3b82f6;border-radius:1px;transition:height .1s;box-shadow:0 0 8px #3b82f6;"></div>
+  </div>
+  <!-- Scroll hint arrows -->
+  <div style="position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:60px;z-index:200;">
+    <button onclick="document.getElementById('pj-scroll').scrollBy({top:-300,behavior:'smooth'})" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);width:32px;height:32px;border-radius:2px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;">↑</button>
+    <button onclick="document.getElementById('pj-scroll').scrollBy({top:300,behavior:'smooth'})" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);width:32px;height:32px;border-radius:2px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;">↓</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCENE 5 — CERTIFICATIONS
+══════════════════════════════════════════ -->
+<div class="scene" id="s5">
+  <div class="orb" style="width:600px;height:600px;background:rgba(29,78,216,0.1);top:-200px;right:-150px;animation-delay:2s;"></div>
+  <div class="cert-wrap">
+    <div class="stag a1">Achievements</div>
+    <h2 class="cert-title a2">Certifications</h2>
+    <div class="line a2"></div>
+    <div class="cert-list">
+      <div class="cert-row sc1">
+        <div class="cert-icon">☁️</div>
+        <div class="cert-body">
+          <div class="cert-name">Introduction to Cloud</div>
+          <div class="cert-issuer">NPTEL · National Programme on Technology Enhanced Learning</div>
+        </div>
+        <div class="cert-badge">Certified</div>
+      </div>
+      <div class="cert-row sc2">
+        <div class="cert-icon">🌐</div>
+        <div class="cert-body">
+          <div class="cert-name">Introduction to Internet of Things (IoT)</div>
+          <div class="cert-issuer">NPTEL · National Programme on Technology Enhanced Learning</div>
+        </div>
+        <div class="cert-badge">Certified</div>
+      </div>
+      <div class="cert-row sc3">
+        <div class="cert-icon">🤖</div>
+        <div class="cert-body">
+          <div class="cert-name">Prompt Engineering &amp; AI Automation</div>
+          <div class="cert-issuer">Google AI Studio · Antigravity Platform</div>
+        </div>
+        <div class="cert-badge">Completed</div>
+      </div>
+      <div class="cert-row sc4">
+        <div class="cert-icon">💼</div>
+        <div class="cert-body">
+          <div class="cert-name">Web Application Development Internship</div>
+          <div class="cert-issuer">Skylena Info Technology Pvt. Ltd. · 2025</div>
+        </div>
+        <div class="cert-badge">Verified</div>
+      </div>
+      <div class="cert-row sc5">
+        <div class="cert-icon">📊</div>
+        <div class="cert-body">
+          <div class="cert-name">Data Visualization &amp; Analytics</div>
+          <div class="cert-issuer">Power BI · Microsoft Ecosystem</div>
+        </div>
+        <div class="cert-badge">Completed</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCENE 6 — TOOLS & STRENGTHS
+══════════════════════════════════════════ -->
+<div class="scene" id="s6">
+  <div class="orb" style="width:500px;height:500px;background:rgba(29,78,216,0.1);bottom:-120px;right:-80px;animation-delay:1.5s;"></div>
+  <div class="tool-wrap">
+    <div>
+      <div class="stag al1">Developer Toolkit</div>
+      <h2 class="tool-title al2">Tools &amp;<br/>Platforms</h2>
+      <div class="tool-pills al3">
+        <span class="tpill">VS Code</span>
+        <span class="tpill">GitHub</span>
+        <span class="tpill">Figma</span>
+        <span class="tpill">Power BI</span>
+        <span class="tpill">Excel</span>
+        <span class="tpill">Google AI Studio</span>
+        <span class="tpill">n8n</span>
+        <span class="tpill">Antigravity</span>
+        <span class="tpill">Android Studio</span>
+        <span class="tpill">Postman</span>
+        <span class="tpill">SQLite</span>
+        <span class="tpill">FastAPI</span>
+      </div>
+    </div>
+    <div>
+      <div class="stag ar1" style="margin-bottom:24px;">Personal Strengths</div>
+      <div class="strength-list">
+        <div class="str-row sc1"><div class="str-dot"></div><div class="str-text">Strong Communication &amp; Presentation Skills</div></div>
+        <div class="str-row sc2"><div class="str-dot"></div><div class="str-text">Leadership &amp; Team Management in Group Projects</div></div>
+        <div class="str-row sc3"><div class="str-dot"></div><div class="str-text">Collaborative Spirit — thrives in agile environments</div></div>
+        <div class="str-row sc4"><div class="str-dot"></div><div class="str-text">Creative Problem-Solving &amp; Analytical Thinking</div></div>
+        <div class="str-row sc5"><div class="str-dot"></div><div class="str-text">Continuous Learner — adapts rapidly to new technologies</div></div>
+        <div class="str-row sc6"><div class="str-dot"></div><div class="str-text">Detail-Oriented with a focus on quality &amp; clean code</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCENE 7 — CONTACT
+══════════════════════════════════════════ -->
+<div class="scene" id="s7">
+  <div class="orb" style="width:800px;height:800px;background:rgba(29,78,216,0.1);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:2s;"></div>
+  <div class="con-wrap">
+    <div class="stag a1" style="justify-content:center;">Get In Touch</div>
+    <h2 class="con-title a2">Contact</h2>
+    <div class="line a2" style="width:200px;"></div>
+    <p class="a3" style="font-size:16px;font-weight:300;color:rgba(255,255,255,0.35);max-width:560px;text-align:center;line-height:1.8;">
+      Open to internships, collaborations, and exciting opportunities in AI, Full Stack Development, and Cybersecurity.
+    </p>
+    <div class="con-cards a4" style="margin-top:8px;">
+      <div class="con-card gcard">
+        <div class="con-icon">📧</div>
+        <div class="con-label">Email</div>
+        <div class="con-value hl">pugalarasan0310@gmail.com</div>
+      </div>
+      <div class="con-card gcard">
+        <div class="con-icon">📞</div>
+        <div class="con-label">Phone</div>
+        <div class="con-value hl">+91 8220358427</div>
+      </div>
+      <div class="con-card gcard">
+        <div class="con-icon">📍</div>
+        <div class="con-label">Location</div>
+        <div class="con-value">Krishnagiri, Tamil Nadu, India</div>
+      </div>
+      <div class="con-card gcard">
+        <div class="con-icon">🔗</div>
+        <div class="con-label">LinkedIn</div>
+        <div class="con-value hl">linkedin.com/in/pugalarasan-a</div>
+      </div>
+      <div class="con-card gcard">
+        <div class="con-icon">🐙</div>
+        <div class="con-label">GitHub</div>
+        <div class="con-value hl">github.com/PUGAL3105</div>
+      </div>
+      <div class="con-card gcard">
+        <div class="con-icon">💻</div>
+        <div class="con-label">LeetCode</div>
+        <div class="con-value hl">leetcode.com/Pugalarasan-0310</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCENE 8 — OUTRO
+══════════════════════════════════════════ -->
+<div class="scene" id="s8">
+  <div class="orb" style="width:900px;height:900px;background:rgba(29,78,216,0.12);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:0s;"></div>
+  <div class="out-wrap">
+    <div class="out-ty a1">Thank You for Watching</div>
+    <div class="out-line a1"></div>
+    <h1 class="out-name a2">Pugalarasan A</h1>
+    <div class="out-roles a3">
+      <span class="out-role">AI</span><span class="out-sep">·</span>
+      <span class="out-role">Full Stack</span><span class="out-sep">·</span>
+      <span class="out-role">Computer Vision</span><span class="out-sep">·</span>
+      <span class="out-role">Cybersecurity</span><span class="out-sep">·</span>
+      <span class="out-role">Web Dev</span>
+    </div>
+    <div class="out-line a3"></div>
+    <div class="out-contact a4">
+      <span class="out-chip">📧 pugalarasan0310@gmail.com</span>
+      <span class="out-chip">🐙 github.com/PUGAL3105</span>
+      <span class="out-chip">🔗 linkedin.com/in/pugalarasan-a</span>
+    </div>
+    <div class="a5" style="margin-top:32px;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,0.15);">
+      B.E. CSE · Dr. N.G.P. Institute of Technology · CGPA 7.54
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── Canvas 3D particle network bg ── */
+const cv=document.getElementById('bg');
+const cx=cv.getContext('2d');
+
+let w = cv.width = window.innerWidth;
+let h = cv.height = window.innerHeight;
+
+window.addEventListener('resize', () => {
+  w = cv.width = window.innerWidth;
+  h = cv.height = window.innerHeight;
+});
+
+const pts = [];
+for(let i=0; i<150; i++) {
+  pts.push({
+    x: (Math.random() - 0.5) * 1200,
+    y: (Math.random() - 0.5) * 1200,
+    z: (Math.random() - 0.5) * 1200,
+    size: Math.random() * 1.5 + 0.5,
+    color: Math.random() > 0.45 ? 'rgba(59, 130, 246, ' : 'rgba(96, 165, 250, '
+  });
+}
+
+const fov = 350;
+let rotationAngleY = 0.0008;
+let rotationAngleX = 0.0004;
+
+function drawBg() {
+  cx.clearRect(0,0,w,h);
+  
+  // Draw space grid background
+  cx.strokeStyle='rgba(59,130,246,0.02)';
+  cx.lineWidth=1;
+  const gridStep = 80;
+  for(let x=0; x<w; x+=gridStep){
+    cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,h);cx.stroke();
+  }
+  for(let y=0; y<h; y+=gridStep){
+    cx.beginPath();cx.moveTo(0,y);cx.lineTo(w,y);cx.stroke();
+  }
+
+  // Pre-calculate rotations
+  const cosY = Math.cos(rotationAngleY);
+  const sinY = Math.sin(rotationAngleY);
+  const cosX = Math.cos(rotationAngleX);
+  const sinX = Math.sin(rotationAngleX);
+
+  pts.forEach(p => {
+    // Rotate Y
+    const x1 = p.x * cosY - p.z * sinY;
+    const z1 = p.z * cosY + p.x * sinY;
+    
+    // Rotate X
+    const y2 = p.y * cosX - z1 * sinX;
+    const z2 = z1 * cosX + p.y * sinX;
+
+    p.x = x1;
+    p.y = y2;
+    p.z = z2;
+
+    // 3D perspective projection
+    const scale = fov / (fov + p.z + 600); // 600 offset to place it in front of camera
+    if (scale > 0) {
+      const projX = p.x * scale + w / 2;
+      const projY = p.y * scale + h / 2;
+      const radius = p.size * scale;
+      const opacity = Math.min(1.0, Math.max(0.1, scale * 0.7));
+
+      cx.beginPath();
+      cx.arc(projX, projY, radius, 0, Math.PI * 2);
+      cx.fillStyle = p.color + opacity + ')';
+      cx.fill();
+    }
+  });
+
+  // Draw 3D network lines for close points
+  for(let i=0; i<pts.length; i++){
+    for(let j=i+1; j<pts.length; j++){
+      const dx=pts[i].x-pts[j].x;
+      const dy=pts[i].y-pts[j].y;
+      const dz=pts[i].z-pts[j].z;
+      const d=Math.sqrt(dx*dx+dy*dy+dz*dz);
+      if(d < 160) {
+        const scaleI = fov / (pts[i].z + 600);
+        const scaleJ = fov / (pts[j].z + 600);
+        if (scaleI > 0 && scaleJ > 0) {
+          const xI = pts[i].x * scaleI + w / 2;
+          const yI = pts[i].y * scaleI + h / 2;
+          const xJ = pts[j].x * scaleJ + w / 2;
+          const yJ = pts[j].y * scaleJ + h / 2;
+          const opacity = (1 - d/160) * 0.06;
+          cx.beginPath();
+          cx.moveTo(xI, yI);
+          cx.lineTo(xJ, yJ);
+          cx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
+          cx.lineWidth = 0.8;
+          cx.stroke();
+        }
+      }
+    }
+  }
+
+  requestAnimationFrame(drawBg);
+}
+drawBg();
+
+/* ── Scene manager ── */
+const SCENES=document.querySelectorAll('.scene');
+const N=SCENES.length;
+// durations per scene in ms
+const DUR=[9000,9000,9000,9000,10000,9000,9000,9000,12000];
+let cur=0,auto=true,tmr=null;
+
+function buildHud(){
+  const h=document.getElementById('hud');
+  h.innerHTML='';
+  for(let i=0;i<N;i++){
+    const d=document.createElement('div');
+    d.className='dot'+(i===cur?' on':'');
+    d.onclick=(()=>{const k=i;return()=>{clearTimeout(tmr);goTo(k);if(auto)sched();}})();
+    h.appendChild(d);
+  }
+}
+
+function goTo(n){
+  SCENES[cur].classList.remove('active');
+  SCENES[cur].classList.add('exit');
+  const prev=cur;
+  setTimeout(()=>SCENES[prev].classList.remove('exit'),900);
+  cur=n;
+  SCENES[cur].classList.add('active');
+  document.getElementById('bar').style.width=(cur/(N-1)*100)+'%';
+  buildHud();
+}
+
+function next(){clearTimeout(tmr);goTo((cur+1)%N);if(auto)sched();}
+function prev(){clearTimeout(tmr);goTo((cur-1+N)%N);if(auto)sched();}
+function sched(){tmr=setTimeout(next,DUR[cur]||8000);}
+function toggle(){
+  auto=!auto;
+  document.getElementById('pb').textContent=auto?'⏸':'▶';
+  if(auto)sched();else clearTimeout(tmr);
+}
+
+buildHud();
+sched();
+
+/* ── Scroll progress bar for projects scene ── */
+const pjScroll = document.getElementById('pj-scroll');
+if(pjScroll){
+  pjScroll.addEventListener('scroll', ()=>{
+    const el = pjScroll;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    const bar = document.getElementById('pj-scroll-bar');
+    if(bar) bar.style.height = Math.min(pct,100) + '%';
+    // Pause auto-advance while user scrolls the projects scene
+    if(cur === 4 && auto){
+      clearTimeout(tmr);
+      clearTimeout(pjScroll._resumeTimer);
+      pjScroll._resumeTimer = setTimeout(()=>{ if(auto) sched(); }, 3000);
+    }
+  });
+}
+
+/* ── Keyboard navigation ── */
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') next();
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') prev();
+  if(e.key===' '||e.key==='Escape') toggle();
+  if(cur===4 && pjScroll){
+    if(e.key==='PageDown') pjScroll.scrollBy({top:400,behavior:'smooth'});
+    if(e.key==='PageUp') pjScroll.scrollBy({top:-400,behavior:'smooth'});
+  }
+});
+</script>
+</body>
+</html>
