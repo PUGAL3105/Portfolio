@@ -50,8 +50,8 @@ export interface HeroConfig {
 
 export const heroConfig: HeroConfig = {
   title: "PUGALARASAN A",
-  subtitleLine1: "B.E. Computer Science Engineer — building intelligent, scalable digital products",
-  subtitleLine2: "across Web, Mobile & AI, with a passion for clean code and human-centred design.",
+  subtitleLine1: "Computer Science Engineering Student",
+  subtitleLine2: "AI · Full Stack · Computer Vision · Cybersecurity",
   ctaText: "Explore My Work",
 };
 
@@ -75,27 +75,27 @@ export const capabilitiesConfig: CapabilitiesConfig = {
   sectionLabel: "Expertise",
   items: [
     {
-      title: "Web Development",
-      slug: "web-development",
-      description: "Developing dynamic, performant web applications with complete database integrations and responsive layouts.",
-      image: "images/capability-1.jpg",
-    },
-    {
-      title: "Mobile Development",
-      slug: "mobile-development",
-      description: "Crafting beautiful cross-platform mobile apps with responsive native-like animations in Flutter.",
-      image: "images/capability-2.jpg",
-    },
-    {
-      title: "AI & Automation",
-      slug: "ai-automation",
-      description: "Orchestrating workflow pipelines using n8n and engineering reliable prompt frameworks for LLMs.",
+      title: "AI / ML & Automation",
+      slug: "ai-ml",
+      description: "Designing intelligent machine learning systems, prompt frameworks, and autonomous workflow pipelines using n8n and LLMs.",
       image: "images/capability-3.jpg",
     },
     {
-      title: "UI/UX & Analytics",
-      slug: "ui-ux-design-analytics",
-      description: "Designing interactive high-fidelity wireframes in Figma and analyzing data using Power BI.",
+      title: "Full Stack & Web Dev",
+      slug: "full-stack-web",
+      description: "Engineering responsive full-stack applications with modular frontend layouts, Express.js APIs, and database integrations.",
+      image: "images/capability-1.jpg",
+    },
+    {
+      title: "Computer Vision",
+      slug: "computer-vision",
+      description: "Applying real-time skeletal tracking, MRI segmentation, and OpenCV/MediaPipe algorithms to bridge physics and digital layers.",
+      image: "images/capability-2.jpg",
+    },
+    {
+      title: "Cybersecurity",
+      slug: "cybersecurity",
+      description: "Constructing multi-layer security threat classifiers and automated network intrusion containment pipelines.",
       image: "images/capability-4.jpg",
     },
   ],
@@ -127,40 +127,40 @@ export const capabilityDetailConfig: CapabilityDetailConfig = {
   nextLabel: "Next",
   notFoundText: "Skill not found.",
   capabilities: {
-    "web-development": {
-      title: "Web Development",
-      subtitle: "Hands-on engineering of modern full-stack web applications.",
+    "ai-ml": {
+      title: "AI / ML & Automation",
+      subtitle: "Bridging neural classifiers with automated backend execution.",
       paragraphs: [
-        "Completed a highly practical Web Application Development internship at Skylena Info Technology Pvt. Ltd. in 2025. Gained hands-on experience in building responsive, modern, and user-centric web platforms in fast-paced agile development environments.",
-        "Proficient in coding clean frontends using HTML, CSS, and modern JavaScript, coupled with robust server integrations and database connectivity. Focused on ensuring cross-browser compatibility, rapid load times, and fluid transitions.",
-        "Experienced in working on real-time projects that bridge user interface layouts with structured backend APIs. Prioritized modular and reusable code structures, making maintenance and scalability simple and organized.",
+        "Actively developing and implementing machine learning solutions to solve complex data challenges. Experienced in engineering precise prompt scripts for large language models, building input validation routines, and leveraging tools like Google AI Studio and Antigravity.",
+        "Proficient in designing automated logic pipelines using n8n to integrate third-party APIs and orchestrate services. Applied ML classifiers such as Support Vector Machines (SVM) and Random Forest models to achieve high-accuracy results in predictive tasks.",
+        "Focused on creating intelligent systems that demonstrate reasoning, self-correction, and context preservation, transforming raw data streams into automated decision-making engines.",
       ],
     },
-    "mobile-development": {
-      title: "Mobile Development",
-      subtitle: "Beautiful hybrid applications tailored for iOS and Android.",
+    "full-stack-web": {
+      title: "Full Stack & Web Dev",
+      subtitle: "Developing robust, user-centric web applications.",
       paragraphs: [
-        "Specializes in mobile application development using the Flutter framework and Dart. Passionate about translating complex user requirements into highly responsive, performant mobile interfaces.",
-        "Experienced with Android CLI, SDK configurations, and state management mechanisms to coordinate remote data calls with local views. Aims to build high-performance applications that maintain a unified codebase while delivering native performance.",
-        "Focuses on tactile micro-interactions, smooth animations, and clean layouts that align with modern Material Design and Cupertino principles, keeping mobile users engaged and satisfied.",
+        "Completed a Web Application Development internship at Skylena Info Technology Pvt. Ltd. in 2025. Gained hands-on experience building responsive web platforms in agile, team-driven environment, ensuring adherence to strict deadlines.",
+        "Skilled in coding clean frontends with HTML, CSS, and modern JavaScript, coupled with robust server integrations and database connectivity. Passionate about modular design patterns that keep codebase maintainable and scalable.",
+        "Experienced with modern frameworks like React and mobile development in Flutter/Dart, bridging user interface components with backend microservices to deliver a seamless, high-performance experience.",
       ],
     },
-    "ai-automation": {
-      title: "AI & Automation",
-      subtitle: "Connecting Large Language Models with autonomous workflows.",
+    "computer-vision": {
+      title: "Computer Vision",
+      subtitle: "Analyzing visual data and rendering interactive overlays.",
       paragraphs: [
-        "Skilled in prompt engineering, designing systemic instructions, input contexts, and validation routines to yield reliable, structured answers from LLMs. Experienced with Google AI Studio and Antigravity.",
-        "Proficient in automation using n8n to integrate third-party APIs, data streams, and agentic workflows, significantly reducing manual operational overhead and human errors.",
-        "Passionate about building software that mimics human reasoning, implementing multi-turn agent processes, self-correction, and context preservation to deliver smart digital assistants.",
+        "Specializes in computer vision and image processing. Experienced in using Python with OpenCV and NumPy for image preprocessing, skull-stripping, contrast enhancement via CLAHE, and noise removal through Gaussian filters.",
+        "Developed an automated Brain Tumor Detection system using the Watershed Segmentation algorithm to perform pixel-level clustering on MRI scans, isolating tumorous tissues from healthy brain matter.",
+        "Engineered an AR Style Fashion Fitting application in Flutter that tracks 17 skeletal joints using camera streams and MediaPipe, mapping coordinates in real-time to overlay digital clothing meshes accurately.",
       ],
     },
-    "ui-ux-design-analytics": {
-      title: "UI/UX & Analytics",
-      subtitle: "Data-driven design systems that optimize user satisfaction.",
+    "cybersecurity": {
+      title: "Cybersecurity",
+      subtitle: "Intelligent threat detection and real-time incident response.",
       paragraphs: [
-        "Combines visual design with analytic telemetry. Skilled in Figma to construct detailed wireframes, high-fidelity mockups, and interactive prototype systems that guide front-end development.",
-        "Experienced in using data visualization tools like Power BI and Excel to create interactive reporting dashboards that help stakeholders track key metrics and make data-driven decisions.",
-        "Advocates for user-centric design principles, validating layouts and user flows through telemetry data, and iterating design components based on user feedback and usability metrics.",
+        "Dedicated to protecting digital networks and application services from vulnerabilities and unauthorized access. Focuses on combining cybersecurity intelligence with automated machine learning detection models.",
+        "Designed and built the CyberShield AI Suite, an end-to-end framework that executes a Random Forest Classifier trained on 20 network flow attributes to classify traffic logs into six categories (including DDoS, Brute Force, and Malware).",
+        "Integrated secure backend APIs with SQLite databases to log security events and trigger automated threat containment workflows, such as IP blocklisting and host isolation, controlled via an interactive security dashboard.",
       ],
     },
   },
@@ -180,8 +180,8 @@ export interface ArchitectureConfig {
 export const architectureConfig: ArchitectureConfig = {
   sectionLabel: "Showcase",
   videoPath: "/videos/cinematic-vision.mp4",
-  title: "Engineering with Precision, Logic, and Creative Vision",
-  description: "As a Computer Science Engineer, I approach code through systematic logic and structural design. Every application is built with a focus on optimized rendering, clean states, and interactive animation, providing visitors with a premium digital experience.",
+  title: "Engineering with Logic, Intelligent Systems, and Security",
+  description: "As a Computer Science Engineering student, I build digital products combining AI, full-stack development, computer vision, and cybersecurity. I design clean code structures, optimize visual rendering, and integrate machine learning pipelines to solve real-world problems.",
 };
 
 // ============================================================
@@ -213,7 +213,7 @@ export const showcaseConfig: ShowcaseConfig = {
     {
       title: "CyberShield AI Suite",
       subtitle: "Real-time threat detection dashboard with ML-powered alert classification.",
-      tag: "AI · Cybersecurity",
+      tag: "AI · Cybersecurity · Full Stack",
       year: "2026",
       slug: "cybershield-ai",
       videoUrl: "https://www.pexels.com/download/video/3130284/",
@@ -222,7 +222,7 @@ export const showcaseConfig: ShowcaseConfig = {
     {
       title: "Brain Tumor Detection",
       subtitle: "Watershed segmentation and SVM classifier applied to MRI scan datasets.",
-      tag: "AI · Medical Imaging",
+      tag: "AI · Computer Vision · ML",
       year: "2026",
       slug: "brain-tumor-detection",
       videoUrl: "https://www.pexels.com/download/video/3045163/",
@@ -231,7 +231,7 @@ export const showcaseConfig: ShowcaseConfig = {
     {
       title: "AR Fashion Fitting",
       subtitle: "MediaPipe skeleton tracking with real-time virtual clothing overlay.",
-      tag: "AR · Computer Vision",
+      tag: "Computer Vision · Flutter",
       year: "2025",
       slug: "ar-fashion-fitting",
       videoUrl: "https://www.pexels.com/download/video/3045163/",
@@ -240,7 +240,7 @@ export const showcaseConfig: ShowcaseConfig = {
     {
       title: "Cognitive Portfolio",
       subtitle: "Canvas rain animations, SVG refractions, and the AI reasoning terminal.",
-      tag: "Web · AI",
+      tag: "Web Dev · AI · Full Stack",
       year: "2026",
       slug: "developer-portfolio",
       videoUrl: "https://www.pexels.com/download/video/3130284/",
@@ -280,21 +280,21 @@ export const researchConfig: ResearchConfig = {
       title: "Automated Brain Tumor Detection",
       slug: "brain-tumor-detection",
       year: "2026",
-      discipline: "AI & Image Processing",
+      discipline: "AI & Computer Vision",
       image: "images/research-1.jpg",
     },
     {
       title: "AR Style Fashion Fitting",
       slug: "ar-fashion-fitting",
       year: "2025",
-      discipline: "Augmented Reality / CV",
+      discipline: "Computer Vision & AR",
       image: "images/research-2.jpg",
     },
     {
       title: "Cognitive Developer Portfolio",
       slug: "developer-portfolio",
       year: "2026",
-      discipline: "Web Application / AI",
+      discipline: "Web Dev & AI",
       image: "images/research-3.jpg",
     },
   ],
