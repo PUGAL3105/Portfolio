@@ -20,7 +20,7 @@ interface Project {
 const PROJECTS: Project[] = [
   {
     num: '01',
-    tag: 'AI · Cybersecurity',
+    tag: 'AI · Full Stack',
     year: '2026',
     slug: 'cybershield-ai',
     title: 'CyberShield AI Suite',
@@ -46,13 +46,13 @@ const PROJECTS: Project[] = [
   },
   {
     num: '02',
-    tag: 'AI · Medical Imaging',
+    tag: 'AI · Mobile App · ML',
     year: '2026',
     slug: 'brain-tumor-detection',
     title: 'Brain Tumor Detection',
     subtitle: 'Automated MRI Segmentation & Computer-Aided Diagnostic System',
     overview:
-      'A medical AI system that processes MRI brain scans through a multi-stage image processing pipeline to detect, segment, and classify tumours with high accuracy. The system provides radiologists with an objective secondary opinion to support early clinical diagnosis.',
+      'Developed an automated brain tumor detection system using MRI scans with image preprocessing and segmentation techniques. Implemented the Watershed Algorithm for accurate tumor region extraction. Applied machine learning methods to improve classification accuracy and support early medical diagnosis.',
     highlights: [
       'Preprocessing pipeline: skull stripping → CLAHE contrast enhancement → Gaussian noise removal → intensity normalization',
       'Watershed Segmentation Algorithm calculates topological gradients to isolate tumour tissue boundaries pixel-by-pixel',
@@ -72,13 +72,13 @@ const PROJECTS: Project[] = [
   },
   {
     num: '03',
-    tag: 'AR · Computer Vision',
+    tag: 'Mobile Application Development · Flutter',
     year: '2025',
     slug: 'ar-fashion-fitting',
     title: 'AR Style Fashion Fitting',
     subtitle: 'Holographic Virtual Try-On via Real-Time Body Tracking',
     overview:
-      'An augmented reality shopping experience built with Flutter and Python. The system tracks 17 body skeleton joints in real-time using MediaPipe, then warps and scales 2D/3D garment assets onto the user\'s live camera frame — allowing customers to try on outfits digitally before purchasing.',
+      'Developed an AR-based virtual fashion fitting system that allows users to try on outfits in real time using camera-based body tracking. Integrated augmented reality and computer vision techniques to overlay clothing accurately. Enhanced online shopping experience by improving size prediction, reducing returns, and increasing customer engagement.',
     highlights: [
       'MediaPipe Pose Detection tracks 17 skeletal landmarks: shoulders, elbows, wrists, hips, knees in real-time',
       'OpenCV contour mapping scales garment mesh to match user body proportions dynamically with rotation/resize/drag',
@@ -98,7 +98,7 @@ const PROJECTS: Project[] = [
   },
   {
     num: '04',
-    tag: 'Web · AI',
+    tag: 'Web Development · AI · Full Stack',
     year: '2026',
     slug: 'developer-portfolio',
     title: 'Cognitive Developer Portfolio',

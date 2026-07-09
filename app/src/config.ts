@@ -51,7 +51,7 @@ export interface HeroConfig {
 export const heroConfig: HeroConfig = {
   title: "PUGALARASAN A",
   subtitleLine1: "Computer Science Engineering Student",
-  subtitleLine2: "AI · Full Stack · Computer Vision · Cybersecurity",
+  subtitleLine2: "AI · Full Stack · Mobile Application Development · Web Development",
   ctaText: "Explore My Work",
 };
 
@@ -81,21 +81,21 @@ export const capabilitiesConfig: CapabilitiesConfig = {
       image: "images/capability-3.jpg",
     },
     {
-      title: "Full Stack & Web Dev",
-      slug: "full-stack-web",
-      description: "Engineering responsive full-stack applications with modular frontend layouts, Express.js APIs, and database integrations.",
-      image: "images/capability-1.jpg",
-    },
-    {
-      title: "Computer Vision",
-      slug: "computer-vision",
-      description: "Applying real-time skeletal tracking, MRI segmentation, and OpenCV/MediaPipe algorithms to bridge physics and digital layers.",
+      title: "Full Stack Development",
+      slug: "full-stack",
+      description: "Engineering robust full-stack software, connecting frontend clients with backend APIs, database systems, and Flutter mobile apps.",
       image: "images/capability-2.jpg",
     },
     {
-      title: "Cybersecurity",
-      slug: "cybersecurity",
-      description: "Constructing multi-layer security threat classifiers and automated network intrusion containment pipelines.",
+      title: "Mobile Application Development",
+      slug: "mobile-app",
+      description: "Crafting beautiful cross-platform mobile apps with responsive native-like animations in Flutter and Dart.",
+      image: "images/capability-1.jpg",
+    },
+    {
+      title: "Web Development",
+      slug: "web-dev",
+      description: "Building clean, responsive, and dynamic web interfaces with complete server integrations based on your Skylena internship.",
       image: "images/capability-4.jpg",
     },
   ],
@@ -136,31 +136,31 @@ export const capabilityDetailConfig: CapabilityDetailConfig = {
         "Focused on creating intelligent systems that demonstrate reasoning, self-correction, and context preservation, transforming raw data streams into automated decision-making engines.",
       ],
     },
-    "full-stack-web": {
-      title: "Full Stack & Web Dev",
-      subtitle: "Developing robust, user-centric web applications.",
+    "full-stack": {
+      title: "Full Stack Development",
+      subtitle: "End-to-end software architectures across web and mobile.",
       paragraphs: [
-        "Completed a Web Application Development internship at Skylena Info Technology Pvt. Ltd. in 2025. Gained hands-on experience building responsive web platforms in agile, team-driven environment, ensuring adherence to strict deadlines.",
-        "Skilled in coding clean frontends with HTML, CSS, and modern JavaScript, coupled with robust server integrations and database connectivity. Passionate about modular design patterns that keep codebase maintainable and scalable.",
-        "Experienced with modern frameworks like React and mobile development in Flutter/Dart, bridging user interface components with backend microservices to deliver a seamless, high-performance experience.",
+        "Specializes in bridging user interface layouts with structured backend APIs and database tables. Skilled in programming in Java and developing cross-platform mobile apps using the Flutter framework.",
+        "Experienced in state management mechanisms, SDK configurations, and state handling to coordinate remote database operations with local client views, delivering native performance on iOS and Android.",
+        "Focuses on clean code practices, modular backend route configurations, and scalable database schemas that enable simple maintenance and robust integrations.",
       ],
     },
-    "computer-vision": {
-      title: "Computer Vision",
-      subtitle: "Analyzing visual data and rendering interactive overlays.",
+    "mobile-app": {
+      title: "Mobile Application Development",
+      subtitle: "Beautiful native-performing hybrid applications.",
       paragraphs: [
-        "Specializes in computer vision and image processing. Experienced in using Python with OpenCV and NumPy for image preprocessing, skull-stripping, contrast enhancement via CLAHE, and noise removal through Gaussian filters.",
-        "Developed an automated Brain Tumor Detection system using the Watershed Segmentation algorithm to perform pixel-level clustering on MRI scans, isolating tumorous tissues from healthy brain matter.",
-        "Engineered an AR Style Fashion Fitting application in Flutter that tracks 17 skeletal joints using camera streams and MediaPipe, mapping coordinates in real-time to overlay digital clothing meshes accurately.",
+        "Specializes in mobile application development using the Flutter framework and Dart. Passionate about translating complex user requirements into highly responsive, performant mobile interfaces.",
+        "Experienced with Android CLI, SDK configurations, state management, and connecting local client views with remote backend databases. Aiming to build applications that deliver native performance on both iOS and Android.",
+        "Designed an AR Style Fashion Fitting application in Flutter that accesses mobile camera streams and leverages joint tracking models to overlay 2D garment meshes in real time.",
       ],
     },
-    "cybersecurity": {
-      title: "Cybersecurity",
-      subtitle: "Intelligent threat detection and real-time incident response.",
+    "web-dev": {
+      title: "Web Development",
+      subtitle: "Hands-on engineering of modern user-centric platforms.",
       paragraphs: [
-        "Dedicated to protecting digital networks and application services from vulnerabilities and unauthorized access. Focuses on combining cybersecurity intelligence with automated machine learning detection models.",
-        "Designed and built the CyberShield AI Suite, an end-to-end framework that executes a Random Forest Classifier trained on 20 network flow attributes to classify traffic logs into six categories (including DDoS, Brute Force, and Malware).",
-        "Integrated secure backend APIs with SQLite databases to log security events and trigger automated threat containment workflows, such as IP blocklisting and host isolation, controlled via an interactive security dashboard.",
+        "Completed a highly practical Web Application Development internship at Skylena Info Technology Pvt. Ltd. Gained hands-on experience in building responsive, modern, and user-centric web platforms in fast-paced agile development environments.",
+        "Proficient in coding clean frontends using HTML, CSS, and modern JavaScript, coupled with robust server integrations and database connectivity. Focused on ensuring cross-browser compatibility, rapid load times, and fluid transitions.",
+        "Worked on real-time projects involving frontend, backend, and database integration. Prioritized modular and reusable code structures, making maintenance and scalability simple and organized.",
       ],
     },
   },
@@ -180,8 +180,8 @@ export interface ArchitectureConfig {
 export const architectureConfig: ArchitectureConfig = {
   sectionLabel: "Showcase",
   videoPath: "/videos/cinematic-vision.mp4",
-  title: "Engineering with Logic, Intelligent Systems, and Security",
-  description: "As a Computer Science Engineering student, I build digital products combining AI, full-stack development, computer vision, and cybersecurity. I design clean code structures, optimize visual rendering, and integrate machine learning pipelines to solve real-world problems.",
+  title: "A Dedicated Computer Science Student & Engineer",
+  description: "A dedicated and focused computer science individual with a strong passion for learning and growth. Eager to apply knowledge in an optimistic environment and contribute to a team's success. Proficient in absorbing new concepts and technologies, with strong professional and personal skills.",
 };
 
 // ============================================================
@@ -213,7 +213,7 @@ export const showcaseConfig: ShowcaseConfig = {
     {
       title: "CyberShield AI Suite",
       subtitle: "Real-time threat detection dashboard with ML-powered alert classification.",
-      tag: "AI · Cybersecurity · Full Stack",
+      tag: "AI · Full Stack",
       year: "2026",
       slug: "cybershield-ai",
       videoUrl: "https://www.pexels.com/download/video/3130284/",
@@ -273,7 +273,7 @@ export const researchConfig: ResearchConfig = {
       title: "CyberShield AI Suite",
       slug: "cybershield-ai",
       year: "2026",
-      discipline: "AI & Cybersecurity",
+      discipline: "AI & Full Stack",
       image: "images/research-4.jpg",
     },
     {

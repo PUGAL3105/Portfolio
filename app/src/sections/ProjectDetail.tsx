@@ -19,7 +19,7 @@ const PROJECTS: Record<string, {
 }> = {
   'cybershield-ai': {
     title: 'CyberShield AI Suite',
-    tag: 'AI · Cybersecurity',
+    tag: 'AI · Full Stack',
     year: '2026',
     accent: '#ef4444',
     image: 'images/research-4.jpg',
@@ -107,12 +107,12 @@ const PROJECTS: Record<string, {
 
   'brain-tumor-detection': {
     title: 'Brain Tumor Detection',
-    tag: 'AI · Medical Imaging',
+    tag: 'AI · Mobile App · ML',
     year: '2026',
     accent: '#3b82f6',
     image: 'images/research-1.jpg',
     overview:
-      'An automated MRI brain scan analysis system that uses a multi-stage OpenCV image processing pipeline followed by SVM and Random Forest classifiers to detect, segment, and classify brain tumours. Deployed as a Streamlit web application for upload, processing, and diagnostic output.',
+      'Developed an automated brain tumor detection system using MRI scans with image preprocessing and segmentation techniques. Implemented the Watershed Algorithm for accurate tumor region extraction. Applied machine learning methods to improve classification accuracy and support early medical diagnosis.',
     problem:
       'Manual MRI analysis by radiologists is time-consuming, subjective, and prone to human error — especially under high patient volume. Early-stage tumour detection dramatically improves treatment outcomes, but current tools lack accessible, automated second-opinion systems for low-resource settings.',
     solution:
@@ -184,12 +184,12 @@ const PROJECTS: Record<string, {
 
   'ar-fashion-fitting': {
     title: 'AR Style Fashion Fitting',
-    tag: 'AR · Computer Vision',
+    tag: 'Mobile Application Development · Flutter',
     year: '2025',
     accent: '#a855f7',
     image: 'images/research-2.jpg',
     overview:
-      'An augmented reality virtual try-on application built with Flutter (mobile frontend) and Python (CV backend). Uses MediaPipe Pose Detection to track 17 body skeleton landmarks in real time, then overlays and warps 2D/3D garment assets onto the live camera frame with drag/resize/rotate controls.',
+      'Developed an AR-based virtual fashion fitting system that allows users to try on outfits in real time using camera-based body tracking. Integrated augmented reality and computer vision techniques to overlay clothing accurately. Enhanced online shopping experience by improving size prediction, reducing returns, and increasing customer engagement.',
     problem:
       'Online clothing shoppers have no way to visualise how garments will look on their own body — resulting in high return rates (up to 30% in e-commerce). Traditional fitting rooms require physical presence. Existing AR apps are expensive, require specialist hardware, or are not cross-platform.',
     solution:
@@ -261,7 +261,7 @@ const PROJECTS: Record<string, {
 
   'developer-portfolio': {
     title: 'Cognitive Developer Portfolio',
-    tag: 'Web · AI',
+    tag: 'Web Development · AI · Full Stack',
     year: '2026',
     accent: '#fbbf24',
     image: 'images/research-3.jpg',

@@ -3,7 +3,7 @@ import AmberCascades from './AmberCascades';
 import LiquidGlassButton from '../components/LiquidGlassButton';
 import { heroConfig } from '../config';
 
-const TAGS = ['AI / ML', 'Full Stack', 'Computer Vision', 'Cybersecurity', 'Web Dev'] as const;
+const TAGS = ['AI / ML', 'Full Stack', 'Mobile Application Development', 'Web Development'] as const;
 
 export default function Hero() {
   const titleRef  = useRef<HTMLHeadingElement>(null);
