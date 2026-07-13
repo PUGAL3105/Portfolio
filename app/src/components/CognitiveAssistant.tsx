@@ -60,7 +60,12 @@ export default function CognitiveAssistant() {
       return "I have built several high-impact projects combining machine learning, web/mobile development, and cybersecurity:\n\n1. **CyberShield AI Suite (2026)**: An intelligent multi-layered threat detection framework. Employs a Random Forest model on Python FastAPI to classify network traffic, Express for API logging, SQLite for storage, and React for alert visualization.\n2. **Automated Brain Tumor Detection (2026)**: A medical image processing system that applies preprocessing, the Watershed Algorithm for tumor segmentation, and machine learning classifiers to assist in early diagnosis.\n3. **AR Style Fashion Fitting (2025)**: An interactive virtual shopping app using camera-based body tracking and computer vision to overlay clothes in real-time and predict sizing.\n4. **Cognitive Developer Portfolio (2026)**: A premium portfolio website displaying simulated agentic reasoning workflows, built with React, Vite, Tailwind, and custom Canvas/SVG animations.";
     }
     if (normalized.includes('skills') || normalized.includes('stack') || normalized.includes('technologies') || normalized.includes('java') || normalized.includes('flutter')) {
-      return "I specialize in bridging design with development. On the programming side, I write Java, JavaScript, and Dart (Flutter). For frontend and backend, I use HTML, CSS, React, FastAPI, Node.js, and Express. I also love automation, so I build automated workflows using n8n and prompt engineering, and design premium UIs in Figma.";
+      return "I specialize in bridging design with development.\n\n" +
+             "• **Programming**: I write Java, JavaScript (basics), and Python (basics).\n" +
+             "• **Frontend & Mobile**: I build responsive client interfaces using HTML, CSS, JavaScript, and Flutter (Dart).\n" +
+             "• **Backend & Databases**: I build robust servers and APIs using Node.js, Express, and FastAPI, integrating database systems like SQLite and MySQL.\n" +
+             "• **AI & Automation**: I construct automated workflow pipelines using n8n, Google AI Studio, and Prompt Engineering.\n" +
+             "• **UI/UX & Tools**: I design premium user interfaces in Figma and leverage developer tools like VS Code, GitHub, and Power BI for data analysis.";
     }
     if (normalized.includes('education') || normalized.includes('college') || normalized.includes('school') || normalized.includes('gpa') || normalized.includes('cgpa') || normalized.includes('institute') || normalized.includes('degree') || normalized.includes('branch')) {
       return "Here are my academic credentials and details:\n\n• **Degree**: Bachelor of Engineering (BE)\n• **Branch**: Computer Science and Engineering (CSE)\n• **CGPA**: 7.54 / 10\n• **College**: Dr. N.G.P. Institute of Technology, Coimbatore (2023 - Present)\n• **High School**: Government Higher Secondary School, Krishnagiri (Class of 2023) - HSC Score: 68.8%\n\nI am highly focused on applying this academic foundation to build responsive web apps, mobile apps, and automated workflows.";
@@ -135,6 +140,28 @@ export default function CognitiveAssistant() {
     terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [thinkingSteps, displayedAnswer, isThinking]);
 
+  const renderFormattedText = (text: string) => {
+    let cleanText = text;
+    const astCount = (text.match(/\*\*/g) || []).length;
+    if (astCount % 2 === 1) {
+      cleanText += '**';
+    }
+
+    return cleanText.split('\n').map((line, idx) => {
+      const parts = line.split('**');
+      return (
+        <div key={idx} style={{ marginBottom: line.trim() ? 4 : 8 }}>
+          {parts.map((part, i) => {
+            if (i % 2 === 1) {
+              return <strong key={i} style={{ fontWeight: 600, color: '#ffffff' }}>{part}</strong>;
+            }
+            return part;
+          })}
+        </div>
+      );
+    });
+  };
+
   return (
     <section
       id="cognitive-assistant"
@@ -175,10 +202,11 @@ export default function CognitiveAssistant() {
             <div>
               <h2
                 style={{
-                  fontFamily: "'EB Garamond', serif",
-                  fontWeight: 400,
-                  fontSize: 'clamp(28px, 3.5vw, 44px)',
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 600,
+                  fontSize: 'clamp(24px, 3.2vw, 36px)',
                   lineHeight: 1.15,
+                  letterSpacing: '-0.75px',
                   color: '#ffffff',
                   marginBottom: 20,
                 }}
@@ -319,7 +347,7 @@ export default function CognitiveAssistant() {
                     lineHeight: 1.7,
                   }}
                 >
-                  {displayedAnswer}
+                  {renderFormattedText(displayedAnswer)}
                   {displayedAnswer.length < answer.length && (
                     <span className="inline-block w-1.5 h-4 ml-1 bg-amber-400 animate-pulse align-middle" />
                   )}

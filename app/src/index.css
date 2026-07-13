@@ -212,6 +212,8 @@
 
   .nav-link:hover { color: #ffffff; }
   .nav-link:hover::after { transform: scaleX(1); }
+  .nav-link.active { color: #ffffff; }
+  .nav-link.active::after { transform: scaleX(1); }
 
   /* ── Responsive section wrapper ── */
   .section-wrapper {

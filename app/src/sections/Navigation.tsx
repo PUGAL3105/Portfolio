@@ -1,16 +1,51 @@
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { siteConfig, navigationConfig } from '../config';
 import { Cpu, FolderGit2, MonitorPlay, Terminal, Mail, Menu, X } from 'lucide-react';
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { pathname, hash } = useLocation();
+  const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 80);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 80);
+
+      if (pathname === '/') {
+        const sections = ['hero', 'curriculum', 'alumni', 'cognitive-assistant', 'footer'];
+        const scrollPos = window.scrollY + 120;
+        let active = '';
+        for (const sec of sections) {
+          const el = document.getElementById(sec);
+          if (el) {
+            const top = el.offsetTop;
+            const height = el.offsetHeight;
+            if (scrollPos >= top && scrollPos < top + height) {
+              active = `#${sec}`;
+            }
+          }
+        }
+        setActiveSection(active);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [pathname]);
+
+  // Handle hash scrolling on page load/change
+  useEffect(() => {
+    if (pathname === '/' && hash) {
+      setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    }
+  }, [pathname, hash]);
 
   // Prevent body scroll when mobile menu open
   useEffect(() => {
@@ -25,10 +60,13 @@ export default function Navigation() {
     }
     e.preventDefault();
     setMenuOpen(false);
-    setTimeout(() => {
+
+    if (pathname !== '/') {
+      navigate('/' + href);
+    } else {
       const el = document.querySelector(href);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    }
   };
 
   const getIcon = (label: string) => {
@@ -83,7 +121,7 @@ export default function Navigation() {
               key={link.label}
               href={link.href}
               onClick={(e) => handleClick(e, link.href)}
-              className="nav-link flex items-center"
+              className={`nav-link flex items-center ${activeSection === link.href ? 'active' : ''}`}
               style={{ gap: 6, minHeight: 'unset', minWidth: 'unset' }}
             >
               {getIcon(link.label)}

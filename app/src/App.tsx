@@ -2,11 +2,13 @@ import { Routes, Route } from 'react-router-dom';
 import Navigation from './sections/Navigation';
 import Hero from './sections/Hero';
 import Curriculum from './sections/Curriculum';
+import ExperienceTimeline from './sections/ExperienceTimeline';
 import CinematicVision from './sections/CinematicVision';
 import AlumniArchives from './sections/AlumniArchives';
 import Footer from './sections/Footer';
 import CapabilityDetail from './sections/CapabilityDetail';
 import CognitiveAssistant from './components/CognitiveAssistant';
+import ContactForm from './components/ContactForm';
 import ProjectDetail from './sections/ProjectDetail';
 
 function HomePage() {
@@ -23,9 +25,11 @@ function HomePage() {
       <main>
         <Hero />
         <Curriculum />
+        <ExperienceTimeline />
         <CinematicVision />
         <AlumniArchives />
         <CognitiveAssistant />
+        <ContactForm />
         <Footer />
       </main>
     </div>

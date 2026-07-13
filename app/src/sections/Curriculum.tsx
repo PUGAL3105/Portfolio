@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { capabilitiesConfig } from '../config';
+import SkillsArsenal from './SkillsArsenal';
 
 export default function Curriculum() {
   const navigate = useNavigate();
@@ -163,6 +164,8 @@ export default function Curriculum() {
             </div>
           ))}
         </div>
+
+        <SkillsArsenal />
       </div>
     </section>
   );

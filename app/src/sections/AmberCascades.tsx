@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-function initAmberCascades(canvas: HTMLCanvasElement) {
+function initMeshBackground(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext('2d')!;
   let width = 0;
   let height = 0;
@@ -8,94 +8,7 @@ function initAmberCascades(canvas: HTMLCanvasElement) {
   let animationFrameId = 0;
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const FALL_SPEED = 1.0;
-  const COLUMN_DENSITY = 0.7;
-  const FONT_SIZE = Math.max(14, Math.round(16));
-  const WAVE_RESOLUTION = 4;
-  const MAX_RIPPLES = 40;
-
-  const mathSymbols = '\u00D7\u00F7\u2206\u03A3\u03A0\u221A\u221E\u2248\u2260\u2264\u2265\u222B\u2202\u03B1\u03B2\u03B3\u03B8\u03C6\u03C8\u03C9';
-  const numbers = '0123456789';
-  const allChars = numbers + mathSymbols;
-  const randomChar = () => allChars[Math.floor(Math.random() * allChars.length)];
-
-  interface CharState {
-    char: string;
-    cycleTimer: number;
-    cycleRate: number;
-  }
-
-  interface Column {
-    x: number;
-    y: number;
-    speed: number;
-    length: number;
-    chars: CharState[];
-    active: boolean;
-    restartDelay: number;
-    opacity: number;
-    hitWater: boolean;
-  }
-
-  interface Ripple {
-    x: number;
-    y: number;
-    radius: number;
-    maxRadius: number;
-    speed: number;
-    life: number;
-    decay: number;
-  }
-
-  interface WavePoint {
-    y: number;
-    vy: number;
-  }
-
-  let columns: Column[] = [];
-  let waterSurface = 0;
-  let ripples: Ripple[] = [];
-  let wavePoints: WavePoint[] = [];
-
-  function createColumn(index: number, scatter: boolean): Column {
-    const length = 12 + Math.floor(Math.random() * 20);
-    const chars: CharState[] = Array.from({ length: length + 5 }, () => ({
-      char: randomChar(),
-      cycleTimer: Math.random() * 3,
-      cycleRate: 0.5 + Math.random() * 2,
-    }));
-
-    let y: number;
-    if (scatter) {
-      if (Math.random() < COLUMN_DENSITY) {
-        y = Math.random() * (waterSurface + length * FONT_SIZE) - length * FONT_SIZE * 0.3;
-      } else {
-        y = -length * FONT_SIZE - Math.random() * height * 0.5;
-      }
-    } else {
-      y = -length * FONT_SIZE * Math.random() * 0.3;
-    }
-
-    return {
-      x: index * FONT_SIZE,
-      y,
-      speed: 1.2 + Math.random() * 2.5,
-      length,
-      chars,
-      active: scatter ? Math.random() < (COLUMN_DENSITY + 0.2) : Math.random() < COLUMN_DENSITY,
-      restartDelay: 0,
-      opacity: 0.6 + Math.random() * 0.4,
-      hitWater: false,
-    };
-  }
-
-  function initSystems() {
-    waterSurface = height * 0.78;
-    const colCount = Math.floor(width / FONT_SIZE);
-    columns = Array.from({ length: colCount }, (_, i) => createColumn(i, true));
-    const waveCount = Math.ceil(width / WAVE_RESOLUTION) + 1;
-    wavePoints = Array.from({ length: waveCount }, () => ({ y: 0, vy: 0 }));
-  }
+  let lastTime = 0;
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -106,223 +19,99 @@ function initAmberCascades(canvas: HTMLCanvasElement) {
     canvas.style.width = width + 'px';
     canvas.style.height = height + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    initSystems();
   }
 
-  function spawnRipple(x: number, y: number) {
-    if (ripples.length >= MAX_RIPPLES) ripples.shift();
-    ripples.push({
-      x,
-      y,
-      radius: 0,
-      maxRadius: 30 + Math.random() * 50,
-      speed: 20 + Math.random() * 30,
-      life: 1.0,
-      decay: 0.3 + Math.random() * 0.2,
-    });
-  }
-
-  function disturbWave(x: number, force: number) {
-    const idx = Math.floor(x / WAVE_RESOLUTION);
-    const spread = 3;
-    for (let i = -spread; i <= spread; i++) {
-      const wi = idx + i;
-      if (wi >= 0 && wi < wavePoints.length) {
-        wavePoints[wi].vy += force * (1 - Math.abs(i) / (spread + 1));
-      }
-    }
-  }
-
-  let lastTime = 0;
+  // Large ambient blobs coordinates
+  const blobs = [
+    { x: 0.2, y: 0.3, rx: 0.25, ry: 0.35, vx: 0.02, vy: 0.015, color: 'rgba(59, 130, 246, 0.05)' }, // Indigo/Blue
+    { x: 0.8, y: 0.7, rx: 0.3, ry: 0.4, vx: -0.015, vy: -0.02, color: 'rgba(200, 170, 130, 0.04)' } // Soft Gold
+  ];
 
   function render(timestamp: number) {
-    const dt = Math.min((timestamp - (lastTime || timestamp)) / 1000, 0.05);
+    if (!lastTime) lastTime = timestamp;
+    const elapsed = timestamp - lastTime;
+
+    // Throttle frame rate on mobile to save battery, desktop stays smooth
+    const fpsThreshold = width < 768 ? 32 : 15;
+    if (elapsed < fpsThreshold) {
+      animationFrameId = requestAnimationFrame(render);
+      return;
+    }
+
     lastTime = timestamp;
     const time = timestamp / 1000;
 
+    // Draw main black background to match the website style
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = '#0a0a0a';
     ctx.fillRect(0, 0, width, height);
 
     if (!prefersReduced) {
-      // Update columns
-      for (const col of columns) {
-        if (!col.active) {
-          col.restartDelay -= dt;
-          if (col.restartDelay <= 0) {
-            if (Math.random() < COLUMN_DENSITY) {
-              Object.assign(col, createColumn(Math.floor(col.x / FONT_SIZE), false), { active: true });
-            } else {
-              col.restartDelay = 0.3 + Math.random() * 1.5;
-            }
-          }
-          continue;
-        }
+      // Update and Draw ambient blobs
+      for (const b of blobs) {
+        b.x += b.vx * (elapsed / 1000);
+        b.y += b.vy * (elapsed / 1000);
 
-        const prevY = col.y;
-        col.y += col.speed * FALL_SPEED * dt * 60;
+        // Boundary checks
+        if (b.x < 0.05 || b.x > 0.95) b.vx *= -1;
+        if (b.y < 0.05 || b.y > 0.95) b.vy *= -1;
 
-        for (const c of col.chars) {
-          c.cycleTimer -= dt;
-          if (c.cycleTimer <= 0) {
-            c.char = randomChar();
-            c.cycleTimer = c.cycleRate;
-          }
-        }
+        const bx = b.x * width;
+        const by = b.y * height;
+        const brad = Math.max(width, height) * 0.45;
 
-        if (!col.hitWater && col.y >= waterSurface && prevY < waterSurface) {
-          col.hitWater = true;
-          spawnRipple(col.x + FONT_SIZE * 0.5, waterSurface);
-          disturbWave(col.x + FONT_SIZE * 0.5, -2 - Math.random() * 3);
-        }
+        const blobGrad = ctx.createRadialGradient(bx, by, 0, bx, by, brad);
+        blobGrad.addColorStop(0, b.color);
+        blobGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
-        if (col.y - col.length * FONT_SIZE > waterSurface + 30) {
-          col.active = false;
-          col.restartDelay = 0.2 + Math.random() * 2;
-        }
-      }
-
-      // Update ripples
-      for (let i = ripples.length - 1; i >= 0; i--) {
-        const r = ripples[i];
-        r.radius += r.speed * dt;
-        r.life -= r.decay * dt;
-        if (r.life <= 0 || r.radius > r.maxRadius) {
-          ripples.splice(i, 1);
-        }
-      }
-
-      // Update wave physics
-      for (const p of wavePoints) {
-        p.vy += -0.03 * p.y;
-        p.vy *= 0.97;
-        p.y += p.vy;
-      }
-
-      // Neighbor propagation - 3 passes
-      for (let pass = 0; pass < 3; pass++) {
-        for (let i = 0; i < wavePoints.length; i++) {
-          if (i > 0) {
-            wavePoints[i].vy += 0.25 * (wavePoints[i - 1].y - wavePoints[i].y);
-          }
-          if (i < wavePoints.length - 1) {
-            wavePoints[i].vy += 0.25 * (wavePoints[i + 1].y - wavePoints[i].y);
-          }
-        }
-      }
-    }
-
-    // Draw columns
-    ctx.font = `${FONT_SIZE}px "Fira Code", "SF Mono", monospace`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-
-    for (const col of columns) {
-      if (!col.active) continue;
-      for (let j = 0; j < col.length; j++) {
-        const charY = col.y - j * FONT_SIZE;
-        if (charY > waterSurface || charY < -FONT_SIZE) continue;
-
-        let brightness: number;
-        if (j === 0) brightness = 1.0;
-        else if (j === 1) brightness = 0.9;
-        else if (j < 4) brightness = 0.75 - (j - 2) * 0.08;
-        else brightness = Math.max(0, 0.6 * (1 - j / col.length));
-
-        const distToWater = waterSurface - charY;
-        if (distToWater < FONT_SIZE * 3) {
-          brightness *= Math.max(0, distToWater / (FONT_SIZE * 3));
-        }
-        brightness *= col.opacity;
-        if (brightness < 0.02) continue;
-
-        let r: number, g: number, b: number;
-        if (j === 0) { r = 255; g = 245; b = 220; }
-        else if (j < 3) { r = 240; g = 200; b = 140; }
-        else { r = 200; g = 149; b = 108; }
-
-        ctx.fillStyle = `rgba(${r},${g},${b},${brightness})`;
-        if (j === 0) {
-          ctx.shadowColor = 'rgba(255, 220, 160, 0.6)';
-          ctx.shadowBlur = 8;
-        }
-        ctx.fillText(col.chars[j % col.chars.length].char, col.x + FONT_SIZE * 0.5, charY);
-        if (j === 0) {
-          ctx.shadowBlur = 0;
-        }
-      }
-    }
-
-    // Draw water surface
-    const waterGrad = ctx.createLinearGradient(0, waterSurface, 0, height);
-    waterGrad.addColorStop(0, 'rgba(15, 13, 11, 0.6)');
-    waterGrad.addColorStop(1, 'rgba(10, 10, 10, 0.95)');
-    ctx.fillStyle = waterGrad;
-    ctx.fillRect(0, waterSurface - 2, width, height - waterSurface + 2);
-
-    // Draw waterline path
-    ctx.beginPath();
-    for (let x = 0; x <= width; x += WAVE_RESOLUTION) {
-      const idx = Math.floor(x / WAVE_RESOLUTION);
-      const waveY = idx < wavePoints.length ? wavePoints[idx].y : 0;
-      const ambient = Math.sin(x * 0.01 + time * 0.8) * 1.5 + Math.sin(x * 0.023 + time * 0.5);
-      const py = waterSurface + waveY + ambient;
-      if (x === 0) ctx.moveTo(x, py);
-      else ctx.lineTo(x, py);
-    }
-    ctx.strokeStyle = 'rgba(200, 170, 130, 0.25)';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    // Draw ripple rings
-    for (const r of ripples) {
-      const alpha = r.life * 0.3;
-      for (let ring = 0; ring < 3; ring++) {
-        const ringRadius = r.radius - ring * 8;
-        if (ringRadius <= 0) continue;
+        ctx.fillStyle = blobGrad;
         ctx.beginPath();
-        ctx.ellipse(r.x, r.y + ring * 2, ringRadius, ringRadius * 0.3, 0, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(200, 170, 130, ${alpha * (1 - ring * 0.3)})`;
-        ctx.lineWidth = 1 - ring * 0.2;
-        ctx.stroke();
+        ctx.arc(bx, by, brad, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
 
-    animationFrameId = requestAnimationFrame(render);
-  }
+    // Draw subtle animated grid mesh
+    const gridSize = 64;
+    const gridOffset = prefersReduced ? 0 : (time * 12) % gridSize;
 
-  function handleInteract(e: MouseEvent | TouchEvent) {
-    const touch = 'touches' in e ? e.touches[0] : null;
-    const x = touch ? touch.clientX : (e as MouseEvent).clientX;
-    const y = touch ? touch.clientY : (e as MouseEvent).clientY;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)'; // Very faint white lines
+    ctx.lineWidth = 1;
 
-    disturbWave(x, -4 - Math.random() * 3);
-    spawnRipple(x, waterSurface);
+    // We use a radial mask for the grid lines so they fade at edges
+    const maskGrad = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, Math.max(width, height) * 0.7);
+    maskGrad.addColorStop(0, 'rgba(255, 255, 255, 0.05)');
+    maskGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.02)');
+    maskGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.strokeStyle = maskGrad;
 
-    const colIdx = Math.floor(x / FONT_SIZE);
-    for (let di = -1; di <= 1; di++) {
-      if (columns[colIdx + di]) {
-        Object.assign(columns[colIdx + di], {
-          active: true,
-          y: y,
-          speed: 2.5 + Math.random() * 2,
-          hitWater: false,
-        });
-      }
+    // Draw vertical lines
+    for (let x = gridOffset; x < width; x += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+
+    // Draw horizontal lines
+    for (let y = gridOffset; y < height; y += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+    }
+
+    if (!prefersReduced) {
+      animationFrameId = requestAnimationFrame(render);
     }
   }
 
   window.addEventListener('resize', resize);
-  canvas.addEventListener('click', handleInteract);
-  canvas.addEventListener('touchstart', handleInteract as EventListener, { passive: false });
-
   resize();
   animationFrameId = requestAnimationFrame(render);
 
   return () => {
     window.removeEventListener('resize', resize);
-    canvas.removeEventListener('click', handleInteract);
-    canvas.removeEventListener('touchstart', handleInteract as EventListener);
     cancelAnimationFrame(animationFrameId);
   };
 }
@@ -332,7 +121,7 @@ export default function AmberCascades() {
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    const cleanup = initAmberCascades(canvasRef.current);
+    const cleanup = initMeshBackground(canvasRef.current);
     return cleanup;
   }, []);
 
@@ -346,6 +135,7 @@ export default function AmberCascades() {
         width: '100%',
         height: '100%',
         zIndex: 1,
+        pointerEvents: 'none', // Prevents blocking clicks on elements below
       }}
     />
   );
