@@ -222,7 +222,7 @@ export const showcaseConfig: ShowcaseConfig = {
     {
       title: "Brain Tumor Detection",
       subtitle: "Watershed segmentation and SVM classifier applied to MRI scan datasets.",
-      tag: "AI · Computer Vision · ML",
+      tag: "AI · Mobile App · ML",
       year: "2026",
       slug: "brain-tumor-detection",
       videoUrl: "https://www.pexels.com/download/video/3045163/",
@@ -231,7 +231,7 @@ export const showcaseConfig: ShowcaseConfig = {
     {
       title: "AR Fashion Fitting",
       subtitle: "MediaPipe skeleton tracking with real-time virtual clothing overlay.",
-      tag: "Computer Vision · Flutter",
+      tag: "Mobile Application Development · Flutter",
       year: "2025",
       slug: "ar-fashion-fitting",
       videoUrl: "https://www.pexels.com/download/video/3045163/",
@@ -240,11 +240,20 @@ export const showcaseConfig: ShowcaseConfig = {
     {
       title: "Cognitive Portfolio",
       subtitle: "Canvas rain animations, SVG refractions, and the AI reasoning terminal.",
-      tag: "Web Dev · AI · Full Stack",
+      tag: "Web Development · AI · Full Stack",
       year: "2026",
       slug: "developer-portfolio",
       videoUrl: "https://www.pexels.com/download/video/3130284/",
       poster: "images/research-3.jpg",
+    },
+    {
+      title: "AI Resume Analyser",
+      subtitle: "FastAPI gateway and NLP matching engine for ATS score checking and candidate ranking.",
+      tag: "AI · NLP · Full Stack",
+      year: "2026",
+      slug: "ats-resume-analyser",
+      videoUrl: "https://www.pexels.com/download/video/3045163/",
+      poster: "images/research-5.jpg",
     },
   ],
 };
@@ -296,6 +305,13 @@ export const researchConfig: ResearchConfig = {
       year: "2026",
       discipline: "Web Dev & AI",
       image: "images/research-3.jpg",
+    },
+    {
+      title: "AI Resume Analyser & ATS Checker",
+      slug: "ats-resume-analyser",
+      year: "2026",
+      discipline: "AI & NLP & Full Stack",
+      image: "images/research-5.jpg",
     },
   ],
 };
@@ -360,6 +376,15 @@ export const projectDetailConfig: ProjectDetailConfig = {
         "Designed and engineered this responsive, high-end developer portfolio website using React 19, TypeScript, and Vite 7. The site uses a sleek dark mode layout with custom canvas-rendered math cascades falling rain effect that simulates waterline boundaries, ripple rings, and mouse interaction disturbance waves.",
         "Built an interactive Cognitive Resume Assistant terminal (`src/components/CognitiveAssistant.tsx`) utilizing a simulated agent workflow. The assistant parses search terms, outputs visual reasoning steps (intent mapping, vector data block extraction, fact checking, and self-correction), and types answers using a real-time typewriter script.",
         "Integrated dynamic client-side sub-routing using React Router DOM. Visitors can click on expertise cards or project grid items to route to dedicated sub-pages (`/capability/:slug` and `/project/:slug`) with smooth scroll-restoration, responsive navigation columns, and full mobile optimization.",
+      ]
+    },
+    "ats-resume-analyser": {
+      title: "AI Resume Analyser & ATS Score Checker",
+      subtitle: "FastAPI-powered document parsing, OCR pipeline, and candidate matching.",
+      paragraphs: [
+        "Developed an AI-powered applicant tracking system (ATS) built on FastAPI and React. The application parses resumes in PDF, DOCX, and TXT formats. In the backend, a multi-stage NLP screening engine lemmatizes raw text, filters NLTK stop words, and applies a weighted scoring algorithm to match candidate credentials against target job postings.",
+        "Engineered a computer vision OCR preprocessing pipeline using Python, OpenCV, and Tesseract. If a scanned or non-searchable PDF is uploaded, the system applies adaptive thresholding, noise filtering, and upscaling before character extraction, ensuring high-accuracy text conversion for scanned resumes.",
+        "Implemented an analytical recruiter dashboard featuring interactive Chart.js talent distribution curves, candidate search/rank sorting, JWT authentication, bcrypt password hashing, and CORS/SQL injection guards to support secure, bias-free applicant screening at scale.",
       ]
     }
   }

@@ -335,9 +335,80 @@ const PROJECTS: Record<string, {
       'Professional dark-mode design with zero external CSS framework dependency',
     ],
   },
+  'ats-resume-analyser': {
+    title: 'AI Resume Analyser & ATS Score Checker',
+    tag: 'AI · NLP · Full Stack',
+    year: '2026',
+    accent: '#10b981',
+    image: 'images/research-5.jpg',
+    overview:
+      'Developed an AI-powered applicant tracking system (ATS) that parses resumes (supporting PDF, DOCX, TXT), detects image-based scanned pages to run OCR pre-processing, match credentials against job posts using a multi-criteria NLP scoring engine, and rank candidates automatically.',
+    problem:
+      'Recruiters spend hours manually filtering through hundreds of resumes, leading to screening fatigue and subjective bias. Existing ATS software often relies on simple keyword matching that fails to identify semantic relevance, experience context, or degree eligibility.',
+    solution:
+      'Built a complete web application with a FastAPI gateway and React frontend. Resumes are parsed, and scanned pages are automatically preprocessed with OpenCV (thresholding, grayscaling) before Tesseract OCR. An NLP matching engine scores candidates across seven weighted criteria, including TF-IDF semantic similarity, experience duration, and certification checks.',
+    workflow: [
+      {
+        phase: 'Phase 1 · Data Parsing & Extraction',
+        steps: [
+          'Support file uploads in PDF, DOCX, and TXT formats',
+          'Utilize PyMuPDF (fitz) and pdfplumber to read text layout structures',
+          'Automatically detect image-based scanned pages via text density check',
+          'Send non-searchable pages to the computer vision preprocessing scanner',
+        ],
+      },
+      {
+        phase: 'Phase 2 · CV OCR Preprocessing',
+        steps: [
+          'Convert scanned PDF pages into OpenCV image matrices (numpy arrays)',
+          'Apply adaptive Gaussian thresholding, grayscaling, and upscaling',
+          'Execute Tesseract OCR engine to run character recognition on optimized images',
+          'Merge extracted OCR segments with standard parsed text layers',
+        ],
+      },
+      {
+        phase: 'Phase 3 · NLP Matching Engine',
+        steps: [
+          'Precompile skill patterns using regex and spaCy en_core_web_sm',
+          'Tokenize, remove NLTK stop words, and lemmatize text using WordNetLemmatizer',
+          'Evaluate TF-IDF vector matrices to compute Cosine Semantic Similarity',
+          'Run candidate credential scores across 7 weighted criteria',
+        ],
+      },
+      {
+        phase: 'Phase 4 · Dashboard UI',
+        steps: [
+          'Build recruiter portal displaying candidate scores, matches, and details',
+          'Plot talent distribution curves and monthly application trends via Chart.js',
+          'Configure JWT token-based routes, password bcrypt hashes, and security boundaries',
+        ],
+      },
+    ],
+    implementation: [
+      { step: 1, title: 'Environment Setup', desc: 'Install fastapi, uvicorn, PyMuPDF, python-docx, pdfplumber, opencv-python, pytesseract, scikit-learn, nltk, sqlalchemy.', code: 'pip install fastapi uvicorn pymupdf python-docx pdfplumber opencv-python pytesseract scikit-learn nltk sqlalchemy' },
+      { step: 2, title: 'Document Parsing & OCR Engine', desc: 'Build ocr_engine.py with OpenCV preprocessors to clean scanned pages and extract characters using Tesseract.', code: 'import cv2\nimport pytesseract\ndef preprocess_image(img):\n    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)\n    return cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]' },
+      { step: 3, title: 'NLP TF-IDF Vectorizer', desc: 'Compute Cosine Similarity between resume text and job description using Scikit-Learn.', code: 'from sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.metrics.pairwise import cosine_similarity\nvectorizer = TfidfVectorizer()\ntfidf = vectorizer.fit_transform([resume_text, job_desc])\nsimilarity = cosine_similarity(tfidf[0:1], tfidf[1:2])[0][0]' },
+      { step: 4, title: 'Weighted Multi-Criteria Scorer', desc: 'Construct score calculation engine weighting skill overlap, degree eligibility, certifications, and experience.' },
+      { step: 5, title: 'FastAPI Router', desc: 'Define API routes in api/endpoints.py for resume upload, parsing, scoring, and ranking, proxying SQLite databases.' },
+      { step: 6, title: 'React Analytical View', desc: 'Configure candidate tables, ranking sorts, and Chart.js distribution graphs.' },
+    ],
+    tech: [
+      { category: 'Data & NLP', items: ['Python', 'scikit-learn', 'NLTK', 'spaCy', 'NumPy', 'TF-IDF'] },
+      { category: 'OCR & Parsing', items: ['OpenCV', 'Tesseract OCR', 'PyMuPDF', 'python-docx', 'pdfplumber'] },
+      { category: 'Backend & DB', items: ['FastAPI', 'Uvicorn', 'SQLite', 'SQLAlchemy', 'JWT', 'bcrypt'] },
+      { category: 'Frontend', items: ['React', 'Axios', 'Chart.js', 'Tailwind CSS'] },
+    ],
+    results: [
+      'Multi-format parser extracts text from PDF, DOCX, and TXT within 500ms',
+      'OpenCV preprocessing yields 94% text accuracy on scanned, poor-quality documents',
+      '7-stage scoring matching correctly prioritizes candidates based on actual skill/degree match',
+      'Candidate rankings display dynamically with graphical analytical insights',
+      'End-to-end token protection securing all recruiter endpoints and databases',
+    ],
+  },
 };
 
-const SLUG_ORDER = ['cybershield-ai', 'brain-tumor-detection', 'ar-fashion-fitting', 'developer-portfolio'];
+const SLUG_ORDER = ['cybershield-ai', 'brain-tumor-detection', 'ar-fashion-fitting', 'developer-portfolio', 'ats-resume-analyser'];
 
 function InfoBlock({ label, children }: { label: string; children: React.ReactNode }) {
   return (

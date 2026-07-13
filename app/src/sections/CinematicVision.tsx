@@ -122,6 +122,32 @@ const PROJECTS: Project[] = [
     image: 'images/research-3.jpg',
     accent: 'rgba(251,191,36,0.12)',
   },
+  {
+    num: '05',
+    tag: 'AI · NLP · Full Stack',
+    year: '2026',
+    slug: 'ats-resume-analyser',
+    title: 'AI Resume Analyser & ATS Checker',
+    subtitle: 'Intelligent Candidate Screening & Document Parsing Pipeline',
+    overview:
+      'Developed an AI-powered applicant tracking system (ATS) that parses resumes (supporting PDF, DOCX, TXT), detects image-based scanned pages to run OCR pre-processing, match credentials against job posts using a multi-criteria NLP scoring engine, and rank candidates automatically.',
+    highlights: [
+      'Multi-Format Extraction parsing raw text from PDF, DOCX, and TXT resumes',
+      'Computer Vision OCR preprocessing with OpenCV (thresholding, grayscaling, upscaling) and Tesseract text extraction',
+      'NLP matching engine evaluating skill overlap, TF-IDF + Cosine similarity, experience, and degree matches',
+      'Interactive recruiter dashboard plotting applicant distribution curves and monthly trends via Chart.js',
+      'Secure architecture featuring JWT token authentication, password hashing, and SQL injection guards',
+    ],
+    architecture: [
+      { label: 'Gateway', value: 'FastAPI · Python · JWT' },
+      { label: 'Frontend', value: 'React · Axios · Chart.js' },
+      { label: 'OCR Engine', value: 'OpenCV · Tesseract OCR' },
+      { label: 'NLP Engine', value: 'Scikit-Learn · TF-IDF' },
+    ],
+    tech: ['FastAPI', 'React', 'OpenCV', 'Tesseract', 'Scikit-Learn', 'SQLite', 'python-docx', 'PyMuPDF'],
+    image: 'images/research-5.jpg',
+    accent: 'rgba(16,185,129,0.12)',
+  },
 ];
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
