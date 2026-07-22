@@ -164,6 +164,33 @@ export default function AlumniArchives() {
                   {project.year}
                 </span>
               </div>
+              {project.githubUrl && (
+                <div style={{ marginTop: 12 }}>
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      fontFamily: "'GeistMono', monospace",
+                      fontSize: 10,
+                      letterSpacing: '1.5px',
+                      textTransform: 'uppercase',
+                      color: '#10b981',
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 4,
+                      opacity: 0.8,
+                      transition: 'opacity 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = '1'; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = '0.8'; }}
+                  >
+                    GitHub Code ↗
+                  </a>
+                </div>
+              )}
             </div>
           ))}
         </div>

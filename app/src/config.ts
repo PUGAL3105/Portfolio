@@ -208,8 +208,17 @@ export interface ShowcaseConfig {
 export const showcaseConfig: ShowcaseConfig = {
   sectionLabel: "Project Showcase",
   heading: "Watch the Projects in Action",
-  subheading: "Demo clips generated to represent each project's core experience — from AI imaging to augmented reality.",
+  subheading: "Demo clips generated to represent each project's core experience — from explainable crop price forecasting to cybersecurity.",
   videos: [
+    {
+      title: "AI Crop Market Analyzer",
+      subtitle: "Explainable AI crop price forecasting, weather simulation, and sell-timing optimization.",
+      tag: "AI · ML · Full Stack · Price & Weather Forecasting",
+      year: "2026",
+      slug: "ai-crop-market-analyzer",
+      videoUrl: "https://www.pexels.com/download/video/3130284/",
+      poster: "images/crop-market-analyzer.jpg",
+    },
     {
       title: "CyberShield AI Suite",
       subtitle: "Real-time threat detection dashboard with ML-powered alert classification.",
@@ -244,7 +253,7 @@ export const showcaseConfig: ShowcaseConfig = {
       year: "2026",
       slug: "developer-portfolio",
       videoUrl: "https://www.pexels.com/download/video/3130284/",
-      poster: "images/research-3.jpg",
+      poster: "images/developer-portfolio.jpg",
     },
     {
       title: "AI Resume Analyser",
@@ -268,6 +277,7 @@ export interface ResearchProject {
   year: string;
   discipline: string;
   image: string;
+  githubUrl?: string;
 }
 
 export interface ResearchConfig {
@@ -279,11 +289,20 @@ export const researchConfig: ResearchConfig = {
   sectionLabel: "Projects",
   projects: [
     {
+      title: "AI Crop Market Analyzer (AgriPredict Pro)",
+      slug: "ai-crop-market-analyzer",
+      year: "2026",
+      discipline: "AI & ML & Full Stack",
+      image: "images/crop-market-analyzer.jpg",
+      githubUrl: "https://github.com/PUGAL3105/AI-Crop-Market-Analyzer",
+    },
+    {
       title: "CyberShield AI Suite",
       slug: "cybershield-ai",
       year: "2026",
       discipline: "AI & Full Stack",
       image: "images/research-4.jpg",
+      githubUrl: "https://github.com/PUGAL3105/CyberShiedAi-",
     },
     {
       title: "Automated Brain Tumor Detection",
@@ -291,6 +310,7 @@ export const researchConfig: ResearchConfig = {
       year: "2026",
       discipline: "AI & Computer Vision",
       image: "images/research-1.jpg",
+      githubUrl: "https://github.com/PUGAL3105/Automated-Brain-Tumor-Detection-using-MRI-imaging",
     },
     {
       title: "AR Style Fashion Fitting",
@@ -298,13 +318,15 @@ export const researchConfig: ResearchConfig = {
       year: "2025",
       discipline: "Computer Vision & AR",
       image: "images/research-2.jpg",
+      githubUrl: "https://github.com/PUGAL3105/AR-Style-Fashion-Fitting",
     },
     {
       title: "Cognitive Developer Portfolio",
       slug: "developer-portfolio",
       year: "2026",
-      discipline: "Web Dev & AI",
-      image: "images/research-3.jpg",
+      discipline: "Web Dev & Agentic AI",
+      image: "images/developer-portfolio.jpg",
+      githubUrl: "https://github.com/PUGAL3105/Portfolio",
     },
     {
       title: "AI Resume Analyser & ATS Checker",
@@ -312,6 +334,7 @@ export const researchConfig: ResearchConfig = {
       year: "2026",
       discipline: "AI & NLP & Full Stack",
       image: "images/research-5.jpg",
+      githubUrl: "https://github.com/PUGAL3105/ATS-Resume-Analyser",
     },
   ],
 };
@@ -342,6 +365,15 @@ export const projectDetailConfig: ProjectDetailConfig = {
   nextLabel: "Next",
   notFoundText: "Project not found.",
   projects: {
+    "ai-crop-market-analyzer": {
+      title: "AI Crop Market Analyzer (AgriPredict Pro)",
+      subtitle: "Explainable AI crop price forecasting, weather simulation, and sell-timing optimization.",
+      paragraphs: [
+        "AgriPredict Pro (AgroVision AI) is an end-to-end explainable agricultural market intelligence platform designed to empower farmers and market analysts with data-driven price predictions and optimal sell-timing insights. The core backend machine learning engine is built using Python, FastAPI, and Uvicorn, evaluating 6 distinct predictive algorithms including LSTM neural networks, XGBoost, Random Forest, Decision Trees, and Linear Regression to select the lowest-RMSE model for spot price forecasting.",
+        "The application integrates local meteorological data (rainfall, humidity, temperature anomalies) with daily mandi spot prices stored in a Star-Schema relational SQLite database (`agripredict.db`). It features a transparent SHAP (SHapley Additive exPlanations) explainability engine that quantifies the positive or negative financial impact of specific environmental variables on future crop prices.",
+        "The frontend user dashboard is developed in React 19, Vite, TypeScript, and Tailwind CSS v4. It presents interactive Chart.js price trend curves, P&L sell-timing advice, mandi spatial logistics mapping across Tamil Nadu, and touch-friendly weather scenario simulation controls. The GitHub repository is available at https://github.com/PUGAL3105/AI-Crop-Market-Analyzer.",
+      ]
+    },
     "cybershield-ai": {
       title: "CyberShield AI Suite",
       subtitle: "Intelligent multi-layer threat classification and response system.",

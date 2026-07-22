@@ -20,6 +20,32 @@ interface Project {
 const PROJECTS: Project[] = [
   {
     num: '01',
+    tag: 'AI · ML · Full Stack · Price & Weather Forecasting',
+    year: '2026',
+    slug: 'ai-crop-market-analyzer',
+    title: 'AI Crop Market Analyzer',
+    subtitle: 'Explainable AI Price Forecasting, Weather Simulation & Sell-Timing Optimization',
+    overview:
+      'AgriPredict Pro (AgroVision AI) is an end-to-end explainable agricultural market intelligence platform. It ingests local meteorological data, historical crop spot prices across Tamil Nadu mandis, and trains 6 distinct machine learning models (LSTM neural networks, XGBoost, Random Forest, etc.) to project pricing trends and provide transparent SHAP feature attributions to farmers and analysts.',
+    highlights: [
+      'Evaluates 6 predictive algorithms (LSTM, XGBoost, Random Forest, Decision Trees, Linear Regression, and Hybrid Ensemble) to select lowest-RMSE model',
+      'Integrates SHAP (SHapley Additive exPlanations) to quantify exact financial impact (+ / - ₹/quintal) of weather variables (rainfall, temp, humidity)',
+      'Backend API built with Python FastAPI, Uvicorn ASGI server, and Pytest coverage for sub-100ms async responses',
+      'Star-Schema SQLite data warehouse (agripredict.db) with FACT_Prices, DIM_Markets (Tamil Nadu mandis), and DIM_Weather tables',
+      'React 19 + Vite + TypeScript + Tailwind CSS v4 dashboard with Chart.js price trend curves, P&L sell-timing bars, and weather scenario simulation sliders',
+    ],
+    architecture: [
+      { label: 'ML & XAI Engine', value: 'LSTM · XGBoost · Random Forest · SHAP' },
+      { label: 'Backend REST API', value: 'Python · FastAPI · Uvicorn · port 8000' },
+      { label: 'Frontend Dashboard', value: 'React 19 · Vite · Tailwind v4 · Chart.js' },
+      { label: 'Data Warehouse', value: 'agripredict.db (SQLite Star-Schema)' },
+    ],
+    tech: ['Python 3.10', 'FastAPI', 'Uvicorn', 'LSTM', 'XGBoost', 'SHAP', 'React 19', 'Vite 7', 'TypeScript', 'Tailwind CSS v4', 'Chart.js', 'SQLite', 'SQLAlchemy', 'Pytest', 'Docker Compose'],
+    image: 'images/crop-market-analyzer.jpg',
+    accent: 'rgba(16,185,129,0.15)',
+  },
+  {
+    num: '02',
     tag: 'AI · Full Stack',
     year: '2026',
     slug: 'cybershield-ai',
@@ -45,7 +71,7 @@ const PROJECTS: Project[] = [
     accent: 'rgba(239,68,68,0.15)',
   },
   {
-    num: '02',
+    num: '03',
     tag: 'AI · Mobile App · ML',
     year: '2026',
     slug: 'brain-tumor-detection',
@@ -71,7 +97,7 @@ const PROJECTS: Project[] = [
     accent: 'rgba(59,130,246,0.15)',
   },
   {
-    num: '03',
+    num: '04',
     tag: 'Mobile Application Development · Flutter',
     year: '2025',
     slug: 'ar-fashion-fitting',
@@ -97,7 +123,7 @@ const PROJECTS: Project[] = [
     accent: 'rgba(168,85,247,0.15)',
   },
   {
-    num: '04',
+    num: '05',
     tag: 'Web Development · AI · Full Stack',
     year: '2026',
     slug: 'developer-portfolio',
@@ -119,11 +145,11 @@ const PROJECTS: Project[] = [
       { label: 'AI Twin', value: 'CognitiveAssistant.tsx' },
     ],
     tech: ['React 19', 'TypeScript', 'Vite 7', 'GSAP', 'Canvas API', 'SVG', 'React Router', 'Tailwind'],
-    image: 'images/research-3.jpg',
+    image: 'images/developer-portfolio.jpg',
     accent: 'rgba(251,191,36,0.12)',
   },
   {
-    num: '05',
+    num: '06',
     tag: 'AI · NLP · Full Stack',
     year: '2026',
     slug: 'ats-resume-analyser',

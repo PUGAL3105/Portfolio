@@ -16,7 +16,90 @@ const PROJECTS: Record<string, {
   results: string[];
   image: string;
   accent: string;
+  githubUrl?: string;
 }> = {
+  'ai-crop-market-analyzer': {
+    title: 'AI Crop Market Analyzer (AgriPredict Pro)',
+    tag: 'AI · ML · Full Stack · Weather & Price Forecasting',
+    year: '2026',
+    accent: '#10b981',
+    image: 'images/crop-market-analyzer.jpg',
+    githubUrl: 'https://github.com/PUGAL3105/AI-Crop-Market-Analyzer',
+    overview:
+      'AgriPredict Pro (AgroVision AI) is a state-of-the-art agricultural price forecasting and sell-timing optimization platform. It utilizes local meteorological data, historical crop prices, and advanced machine learning models (including LSTM neural networks, XGBoost, and Random Forest) to project spot price directions and deliver transparent SHAP feature explainability to farmers and market analysts.',
+    problem:
+      'Farmers faced with extreme market volatility lack transparent, data-driven tools to determine optimal crop selling dates. Conventional pricing benchmarks fail to integrate hyper-local weather shifts (rainfall, humidity, temperature anomalies) or regional transport logistics, leading to reduced profit margins and post-harvest financial losses.',
+    solution:
+      'Engineered an end-to-end explainable AI market intelligence suite. The system ingests daily spot price records across Tamil Nadu mandis into a SQLite Star-Schema data warehouse (agripredict.db). It trains 6 distinct predictive algorithms (Linear Regression, Decision Trees, Random Forest, XGBoost, LSTM, and Hybrid models), selects the lowest-RMSE engine, and computes SHAP values to quantify how environmental variables influence price forecasts. Served via FastAPI/Uvicorn and a responsive React 19 + Tailwind CSS v4 dashboard.',
+    workflow: [
+      {
+        phase: 'Phase 1 · Data Warehouse Architecture',
+        steps: [
+          'Design Star-Schema relational database (agripredict.db) using SQLite and SQLAlchemy ORM',
+          'Build FACT_Prices (crop_prices_fact) storing daily spot price records, rainfall, temperature, and humidity metrics',
+          'Construct DIM_Markets (markets_dim) mapping Tamil Nadu mandi spatial coordinates and transportation logistics costs',
+          'Build DIM_Weather (weather_dim) storing historical and forecasted meteorological variables per district',
+        ],
+      },
+      {
+        phase: 'Phase 2 · ML Pipeline & Ensemble Training',
+        steps: [
+          'Preprocess timeseries data with MinMaxScaler normalization and lag-feature creation (7-day, 14-day, 30-day moving averages)',
+          'Train 6 predictive engines: Linear Regression, Decision Trees, Random Forest, XGBoost, LSTM Neural Networks, and Hybrid models',
+          'Evaluate RMSE and MAE across model candidates; serialize the top-performing model artifact for runtime inference',
+          'Integrate rolling window validation to prevent target leakage in sequential market price data',
+        ],
+      },
+      {
+        phase: 'Phase 3 · SHAP Feature Explainability',
+        steps: [
+          'Integrate SHAP (SHapley Additive exPlanations) TreeExplainer and DeepExplainer to compute exact feature attribution scores',
+          'Quantify positive and negative financial impact of environmental variables (temperature anomalies, unseasonal rainfall, humidity spikes)',
+          'Generate natural language explanation strings accompanying every price prediction output',
+        ],
+      },
+      {
+        phase: 'Phase 4 · Asynchronous FastAPI Gateway',
+        steps: [
+          'Build FastAPI REST endpoints (/api/forecast, /api/mandi-analysis, /api/explainability)',
+          'Run Uvicorn ASGI server with hot-reloading and CORS middleware for instant frontend communication',
+          'Write automated unit and integration tests using Pytest to validate API contracts and schema responses',
+        ],
+      },
+      {
+        phase: 'Phase 5 · React + Tailwind v4 Dashboard',
+        steps: [
+          'Build responsive frontend using React 19, Vite, TypeScript, and Tailwind CSS v4 with dark mode aesthetics',
+          'Implement interactive line trajectory and P&L bar charts via Chart.js and React-Chartjs-2 for price trend visualization',
+          'Add mobile navigation drawer, fluid grid layouts, and interactive parameter sliders for weather scenario simulation',
+        ],
+      },
+    ],
+    implementation: [
+      { step: 1, title: 'Environment Setup', desc: 'Create Python 3.10+ virtual environment and install FastAPI, Uvicorn, SQLAlchemy, scikit-learn, XGBoost, SHAP, and Pytest.', code: 'python -m venv venv && .\\venv\\Scripts\\activate\npip install fastapi uvicorn sqlalchemy scikit-learn xgboost shap pytest pandas numpy' },
+      { step: 2, title: 'Star-Schema Database Setup', desc: 'Define SQLAlchemy ORM models for FACT_Prices, DIM_Markets, and DIM_Weather in agripredict.db.', code: 'class FactPrices(Base):\n    __tablename__ = "crop_prices_fact"\n    id = Column(Integer, primary_key=True)\n    mandi_id = Column(Integer, ForeignKey("markets_dim.id"))\n    price = Column(Float)\n    rainfall_mm = Column(Float)\n    temp_c = Column(Float)' },
+      { step: 3, title: 'ML Model Training & Selection', desc: 'Train 6 machine learning models on historical crop price and weather data, selecting the lowest RMSE model.', code: 'from xgboost import XGBRegressor\nfrom sklearn.metrics import mean_squared_error\nmodel = XGBRegressor(n_estimators=200, learning_rate=0.05, max_depth=6)\nmodel.fit(X_train, y_train)\nrmse = np.sqrt(mean_squared_error(y_test, model.predict(X_test)))' },
+      { step: 4, title: 'SHAP Feature Explainability', desc: 'Compute SHAP values for model predictions to explain key price drivers to farmers.', code: 'import shap\nexplainer = shap.TreeExplainer(model)\nshap_values = explainer.shap_values(X_sample)\n# Quantifies exact + / - impact of rainfall & temperature on predicted price' },
+      { step: 5, title: 'FastAPI Backend Endpoints', desc: 'Create FastAPI app with endpoints for price forecasting, sell-timing optimization, and feature importance.', code: '@app.get("/api/forecast/{crop_id}")\nasync def get_forecast(crop_id: str, mandi_id: int):\n    pred, shap_summary = model_engine.predict_with_explanation(crop_id, mandi_id)\n    return {"predicted_price": pred, "explanations": shap_summary}' },
+      { step: 6, title: 'React + Chart.js Dashboard', desc: 'Construct responsive TypeScript React app with Chart.js line graphs, P&L sell timing indicators, and Tailwind CSS v4.', code: 'import { Line } from "react-chartjs-2";\n// Renders interactive multi-scenario price trajectories with confidence bands' },
+      { step: 7, title: 'Production Deployment & Docker', desc: 'Package backend for Uvicorn ASGI server and deploy frontend on Vercel with Docker Compose orchestrations.', code: 'docker-compose up --build -d\n# Runs FastAPI backend on port 8000 and React frontend on port 5173' },
+    ],
+    tech: [
+      { category: 'Languages', items: ['Python 3.10', 'TypeScript', 'JavaScript', 'SQL', 'HTML/CSS'] },
+      { category: 'Frontend UI', items: ['React 19', 'Vite 7', 'TypeScript', 'Tailwind CSS v4', 'Chart.js', 'React-Chartjs-2', 'Lucide React'] },
+      { category: 'Backend API', items: ['FastAPI', 'Uvicorn', 'Pytest', 'REST API', 'ASGI'] },
+      { category: 'ML & AI Engine', items: ['LSTM Neural Networks', 'XGBoost', 'Random Forest', 'Decision Trees', 'Linear Regression', 'SHAP (SHapley Additive exPlanations)', 'Scikit-Learn', 'Pandas', 'NumPy'] },
+      { category: 'Database & DevOps', items: ['SQLite (agripredict.db)', 'SQLAlchemy ORM', 'Star-Schema Warehouse', 'Docker Compose', 'Vercel'] },
+    ],
+    results: [
+      'Lowest RMSE price forecasting across 6 evaluated predictive ML algorithms',
+      'Transparent SHAP explainability quantifies exact financial impact of rainfall & temperature',
+      'Optimized sell-timing advice helps farmers identify peak profit windows',
+      'Sub-100ms API inference response time via asynchronous FastAPI',
+      'Fully responsive UI optimized for mobile drawer navigation and touch controls',
+    ],
+  },
+
   'cybershield-ai': {
     title: 'CyberShield AI Suite',
     tag: 'AI · Full Stack',
@@ -264,7 +347,8 @@ const PROJECTS: Record<string, {
     tag: 'Web Development · AI · Full Stack',
     year: '2026',
     accent: '#fbbf24',
-    image: 'images/research-3.jpg',
+    image: 'images/developer-portfolio.jpg',
+    githubUrl: 'https://github.com/PUGAL3105/Portfolio',
     overview:
       'A premium, dark-mode developer portfolio built with React 19, TypeScript, and Vite 7. Features a custom Canvas digital rain, SVG liquid-glass button refractions, a simulated 4-step AI reasoning terminal, dynamic sub-page routing for all project and capability detail pages, and a self-correcting Cognitive Twin AI assistant.',
     problem:
@@ -408,7 +492,7 @@ const PROJECTS: Record<string, {
   },
 };
 
-const SLUG_ORDER = ['cybershield-ai', 'brain-tumor-detection', 'ar-fashion-fitting', 'developer-portfolio', 'ats-resume-analyser'];
+const SLUG_ORDER = ['ai-crop-market-analyzer', 'cybershield-ai', 'brain-tumor-detection', 'ar-fashion-fitting', 'developer-portfolio', 'ats-resume-analyser'];
 
 function InfoBlock({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -493,6 +577,44 @@ export default function ProjectDetail() {
             fontSize: 18, lineHeight: 1.8, color: 'rgba(218,218,218,0.6)',
             margin: 0, maxWidth: 680,
           }}>{data.overview}</p>
+
+          {data.githubUrl && (
+            <div style={{ marginTop: 24 }}>
+              <a
+                href={data.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  padding: '10px 20px',
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  borderRadius: 3,
+                  color: '#fff',
+                  fontFamily: "'GeistMono', monospace",
+                  fontSize: 11,
+                  letterSpacing: '2px',
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.12)';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
+                }}
+              >
+                <span>View Repository on GitHub</span>
+                <span style={{ fontSize: 13 }}>↗</span>
+              </a>
+            </div>
+          )}
+
           {/* Tech chips */}
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 28 }}>
             {data.tech.flatMap(t => t.items).slice(0, 8).map(item => (
